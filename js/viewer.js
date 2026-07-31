@@ -1,3 +1,231 @@
+/* ================================================================
+   📦 SitesLoader v1 — محمّل المحتوى الموحّد لنسخ الزائر (user)
+   ----------------------------------------------------------------
+   ليه موجود؟ لأن نسخة الزائر بتقرأ المحتوى من ملف data/sites.json،
+   ولو الملف ده مش مترفع على الاستضافة صح كانت الصفحة بتفضل فاضية
+   من غير أي سبب واضح. المحمّل ده بيحل 3 حاجات:
+
+   1) شاشة "⏳ جاري تحميل المحتوى" أول ما الصفحة تفتح.
+   2) لو الـ fetch فشل (404 / شبكة) ⬅️ بيحاول تلقائيًا يحمّل النسخة
+      الاحتياطية المدمجة js/embedded-data.js (بتتولّد من sites.json).
+   3) لو الاتنين فشلوا ⬅️ شاشة تشخيص حمرا فيها: المسار اللي جرّبناه،
+      نتيجة المحاولة، وخطوات الحل واحدة واحدة + زر إعادة محاولة.
+
+   الاستخدام: بدل ما تعمل fetch بنفسك، نادِ:
+       const pack = await window.SitesLoader.load();
+       if(!pack) { return; } // فشل نهائي — شاشة التشخيص ظاهرة للزائر
+       const data = pack.data;   // نفس محتوى sites.json
+       pack.source;              // 'server' أو 'embedded'
+   ================================================================ */
+(function () {
+  if (window.SitesLoader) return;   // حماية من التحميل مرتين
+
+  var FETCH_TIMEOUT = 15000;        // أقصى وقت لانتظار السيرفر
+  var SCRIPT_TIMEOUT = 12000;       // أقصى وقت لتحميل النسخة المدمجة
+  var Z = 2147483000;               // فوق أي عنصر تاني في الصفحة
+  var FONT = '"Cairo","Tajawal",system-ui,-apple-system,"Segoe UI",sans-serif';
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  /* ---------- شاشة التحميل / التشخيص (overlay) ---------- */
+  var overlay = null, subEl = null, msgEl = null;
+
+  function ensureOverlay() {
+    if (overlay && overlay.isConnected) return;
+    if (!document.getElementById('sl-style')) {
+      var st = document.createElement('style');
+      st.id = 'sl-style';
+      st.textContent = '@keyframes sl-spin{to{transform:rotate(360deg)}}'
+        + '@keyframes sl-in{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}';
+      document.head.appendChild(st);
+    }
+    overlay = document.createElement('div');
+    overlay.setAttribute('dir', 'rtl');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:' + Z + ';display:flex;align-items:center;'
+      + 'justify-content:center;background:rgba(8,10,18,.96);backdrop-filter:blur(6px);'
+      + 'font-family:' + FONT + ';color:#e5e7eb;padding:16px;overflow:auto;';
+    document.documentElement.appendChild(overlay);
+  }
+
+  function showLoading() {
+    ensureOverlay();
+    overlay.innerHTML = '<div style="text-align:center;max-width:340px;animation:sl-in .25s ease">'
+      + '<div style="width:46px;height:46px;margin:0 auto 14px;border:4px solid rgba(148,163,184,.25);'
+      + 'border-top-color:#818cf8;border-radius:50%;animation:sl-spin .9s linear infinite"></div>'
+      + '<div style="font-size:17px;font-weight:700">⏳ جاري تحميل المحتوى…</div>'
+      + '<div id="sl-sub" style="font-size:13px;color:#94a3b8;margin-top:8px;line-height:1.9"></div>'
+      + '</div>';
+    subEl = overlay.querySelector('#sl-sub');
+  }
+
+  function setSub(t) { if (subEl) subEl.textContent = t; }
+
+  function hideOverlay() {
+    if (overlay && overlay.isConnected) overlay.remove();
+    overlay = null; subEl = null;
+  }
+
+  /* ---------- شريط تنبيه "شغال بالنسخة الاحتياطية" ---------- */
+  function showEmbeddedBanner() {
+    if (document.getElementById('sl-embed-banner')) return;
+    var b = document.createElement('div');
+    b.id = 'sl-embed-banner';
+    b.setAttribute('dir', 'rtl');
+    b.style.cssText = 'position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:' + (Z - 1) + ';'
+      + 'background:#1f2937;border:1px solid rgba(251,191,36,.45);color:#fde68a;font-family:' + FONT + ';'
+      + 'font-size:13px;line-height:1.9;padding:10px 14px 10px 8px;border-radius:12px;max-width:92vw;'
+      + 'box-shadow:0 10px 30px rgba(0,0,0,.45);display:flex;gap:10px;align-items:flex-start;animation:sl-in .3s ease;';
+    b.innerHTML = '<span>⚠️ شغال دلوقتي <b>بنسخة احتياطية مدمجة</b> من المحتوى لأن ملف '
+      + '<b style="font-family:monospace">data/sites.json</b> مش متاح على السيرفر — '
+      + 'راجع خطوات الرفع عشان الزوّار يشوفوا آخر تحديث.</span>';
+    var x = document.createElement('button');
+    x.textContent = '✕';
+    x.setAttribute('aria-label', 'إغلاق');
+    x.style.cssText = 'background:none;border:none;color:#94a3b8;font-size:15px;cursor:pointer;padding:2px 4px;flex-shrink:0;';
+    x.onclick = function () { b.remove(); };
+    b.appendChild(x);
+    document.documentElement.appendChild(b);
+  }
+
+  /* ---------- fetch مع وقت أقصى + رسائل عربية واضحة ---------- */
+  function fetchJson(url) {
+    return new Promise(function (resolve, reject) {
+      var done = false;
+      var timer = setTimeout(function () {
+        finish(new Error('السيرفر خد وقت أطول من اللازم ومردّش (timeout بعد ' + Math.round(FETCH_TIMEOUT / 1000) + ' ثانية)'));
+      }, FETCH_TIMEOUT);
+
+      function finish(err, data) {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        if (err) reject(err); else resolve(data);
+      }
+
+      fetch(url, { cache: 'no-store' }).then(function (res) {
+        if (!res.ok) {
+          var msg = 'HTTP ' + res.status +
+            (res.status === 404 ? ' — الملف مش موجود على السيرفر (غالبًا فولدر data مش مترفع)'
+              : res.status === 403 ? ' — السيرفر رافض الوصول للملف (راجع صلاحيات الملفات)' : '');
+          var e = new Error(msg);
+          e.httpStatus = res.status;
+          finish(e);
+          return;
+        }
+        res.json().then(
+          function (d) { finish(null, d); },
+          function () { finish(new Error('الملف موجود بس محتواه مش JSON صالح — ممكن يكون اتنقل ناقص أو اتعدّل غلط')); }
+        );
+      }, function (netErr) {
+        var m = (netErr && netErr.message) || '';
+        finish(new Error(/failed to fetch|network|load failed/i.test(m)
+          ? 'فشل الاتصال بالسيرفر نهائيًا (مشكلة شبكة أو السيرفر واقف)'
+          : 'خطأ غير متوقع أثناء التحميل: ' + m));
+      });
+    });
+  }
+
+  /* ---------- تحميل النسخة الاحتياطية المدمجة (script tag — بتشتغل حتى على file://) ---------- */
+  function loadEmbedded() {
+    return new Promise(function (resolve) {
+      if (window.__EMBEDDED_SITES_DATA__) { resolve(window.__EMBEDDED_SITES_DATA__); return; }
+      var done = false;
+      function fin(ok) {
+        if (done) return; done = true;
+        clearTimeout(timer);
+        resolve(ok ? (window.__EMBEDDED_SITES_DATA__ || null) : null);
+      }
+      var timer = setTimeout(function () { fin(false); }, SCRIPT_TIMEOUT);
+      var s = document.createElement('script');
+      s.onload = function () { fin(true); };
+      s.onerror = function () { fin(false); };
+      s.src = 'js/embedded-data.js?ts=' + Date.now();
+      document.head.appendChild(s);
+    });
+  }
+
+  /* ---------- شاشة التشخيص النهائية ---------- */
+  function showFatal(url, err, embeddedTried) {
+    ensureOverlay();
+    var fileProto = location.protocol === 'file:';
+    var errMsg = err ? err.message : 'خطأ غير معروف';
+    var is404 = err && err.httpStatus === 404;
+
+    overlay.innerHTML = '<div style="max-width:560px;width:100%;background:#151a26;border:1px solid rgba(239,68,68,.35);'
+      + 'border-radius:18px;padding:26px 22px;box-shadow:0 20px 60px rgba(0,0,0,.5);animation:sl-in .3s ease;line-height:2">'
+      + '<div style="font-size:42px;text-align:center">😵</div>'
+      + '<div style="font-size:21px;font-weight:800;text-align:center;margin-bottom:6px">المحتوى مش ظاهر</div>'
+      + '<p style="text-align:center;color:#94a3b8;font-size:14px;margin:0 0 16px">الصفحة نفسها شغّالة، بس المتصفح مش قادر يوصل لملف البيانات.</p>'
+
+      + '<div style="background:#0b0f19;border:1px solid rgba(148,163,184,.2);border-radius:12px;padding:12px 14px;font-size:12.5px;margin-bottom:10px">'
+      + '<div style="color:#94a3b8;margin-bottom:4px">📁 المسار اللي جرّبناه:</div>'
+      + '<div dir="ltr" style="font-family:monospace;color:#93c5fd;word-break:break-all;text-align:left">' + esc(url) + '</div>'
+      + '<div style="color:#94a3b8;margin:8px 0 4px">❌ النتيجة:</div>'
+      + '<div style="color:#fca5a5">' + esc(errMsg) + '</div>'
+      + '</div>'
+
+      + (fileProto
+        ? '<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:12px;padding:10px 14px;font-size:13px;color:#fde68a;margin-bottom:10px">'
+          + '💡 إنت فاتح الصفحة <b>من ملف على جهازك</b> (file://) — المتصفح بيمنع المواقع من قراءة ملفات JSON المحلية. شغّل سيرفر محلي (زي ما في README) أو ارفع على الاستضافة.</div>'
+        : '')
+
+      + '<div style="background:#0b0f19;border:1px solid rgba(148,163,184,.15);border-radius:12px;padding:12px 16px;font-size:13.5px;margin-bottom:14px">'
+      + '<div style="font-weight:800;margin-bottom:6px">🛠️ جرّب الحلول دي بالترتيب:</div>'
+      + '<ol style="margin:0;padding-right:20px;color:#cbd5e1">'
+      + '<li>افتح المسار اللي فوق في تاب لوحده — المفروض تشوف نص طويل فيه بيانات الموقع.'
+      + (is404 ? ' <b style="color:#fca5a5">(ظهر 404؟ يبقى فولدر data مش مترفع صح 👇)</b>' : '') + '</li>'
+      + '<li>اتأكد إن فولدر <b style="font-family:monospace">data</b> مترفع جوه نفس فولدر الصفحة (جنب <b style="font-family:monospace">js</b> و <b style="font-family:monospace">css</b>) وبنفس الاسم بحروف small.</li>'
+      + '<li>اعمل تحديث قوي للصفحة: <b dir="ltr">Cmd+Shift+R</b> على ماك أو <b dir="ltr">Ctrl+Shift+R</b> على ويندوز.</li>'
+      + '<li>لو لسه — خد سكرين شوت للشاشة دي وابعتها 🙏</li>'
+      + '</ol></div>'
+
+      + (embeddedTried
+        ? '<div style="font-size:12px;color:#64748b;margin-bottom:14px">🔎 ملحوظة: النسخة الاحتياطية المدمجة (<span style="font-family:monospace">js/embedded-data.js</span>) برضه مش موجودة — يعني غالبًا فولدر كامل مترفعش على الاستضافة.</div>'
+        : '')
+
+      + '<button id="sl-retry" style="width:100%;background:#4f46e5;border:none;color:#fff;font-family:inherit;'
+      + 'font-size:15px;font-weight:700;padding:12px;border-radius:12px;cursor:pointer">🔄 إعادة المحاولة</button>'
+      + '</div>';
+
+    var btn = overlay.querySelector ? overlay.querySelector('#sl-retry') : null;
+    if (btn) btn.onclick = function () { location.reload(); };
+  }
+
+  /* ---------- الواجهة الرئيسية ---------- */
+  async function loadCore() {
+    showLoading();
+    var fullUrl = 'data/sites.json';
+    try { fullUrl = new URL('data/sites.json', location.href).href; } catch (e) { }
+
+    var fetchErr = null;
+    try {
+      var data = await fetchJson('data/sites.json');
+      hideOverlay();
+      return { data: data, source: 'server' };
+    } catch (err) {
+      fetchErr = err;
+      console.warn('[SitesLoader] فشل تحميل data/sites.json:', err);
+      setSub('السيرفر مردّش كويس… بنجرّب النسخة الاحتياطية المدمجة 🔄');
+    }
+
+    var emb = await loadEmbedded();
+    if (emb) {
+      hideOverlay();
+      showEmbeddedBanner();
+      return { data: emb, source: 'embedded' };
+    }
+
+    showFatal(fullUrl, fetchErr, true);
+    return null;
+  }
+
+  window.SitesLoader = { load: loadCore };
+})();
+
 /* ============================ DATA ============================ */
 const ICONS = ['building-2','landmark','ruler','cpu','cog','zap','radio','flask-conical','wrench','hammer','layers','network','circuit-board','hard-hat','pyramid','mountain','droplets','atom','satellite','boxes','pencil-ruler','factory','gauge','plug'];
 const COLORS = {
@@ -8,12 +236,13 @@ const defaultImage = 'data:image/svg+xml,' + encodeURIComponent(
   "<svg xmlns='http://www.w3.org/2000/svg' width='640' height='360'><rect width='100%' height='100%' fill='#0d2137'/><g stroke='#1b3650' stroke-width='1'><path d='M0 60H640M0 120H640M0 180H640M0 240H640M0 300H640M80 0V360M160 0V360M240 0V360M320 0V360M400 0V360M480 0V360M560 0V360'/></g><text x='50%' y='50%' font-family='monospace' font-size='22' fill='#38618a' text-anchor='middle' dy='.3em'>PARTITION</text></svg>");
 
 // ---- EXPORT TARGET (DO NOT DELETE THIS LINE) ----
-const defaultDepartments = DEFAULT_DEPTS;
-
+// نسخة الزوّار: مفيش بيانات مبدئية مدمجة في الكود ولا localStorage خاص بالأدمن —
+// المحتوى بييجي من data/sites.json فقط (عن طريق SitesLoader أسفل الملف).
 const STORAGE_KEY = 'engBlueprintData_Roadmaps_v1';
-const safeOriginal = defaultDepartments;
+const safeOriginal = [];
+const defaultDepartments = safeOriginal;
 
-let depts = JSON.parse(localStorage.getItem(STORAGE_KEY)) || JSON.parse(JSON.stringify(safeOriginal));
+let depts = [];
 let current = 'home';      // 'home' or dept id
 let currentPartition = null; // selected partition id
 let currentCategory = null; // selected category id
@@ -96,19 +325,14 @@ function showToast(msg, isError){
   window.__toastT=setTimeout(()=>t.classList.remove('show'),3000);
 }
 async function loadDeptsFromJson(){
-  try{
-    const res = await fetch('data/sites.json', { cache:'no-store' });
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    const arr = Array.isArray(data) ? data : (data && data.depts);
-    if(!Array.isArray(arr)) throw new Error('bad json');
-    depts = arr;
-    applyUserProgress();
-  }catch(e){
-    console.warn('تعذّر تحميل data/sites.json:', e);
-    depts = [];
-    showToast('تعذّر تحميل ملف المحتوى — شغّل من سيرفر مش من الملف مباشرة', true);
-  }
+  // SitesLoader الموحّد: fetch ← نسخة مدمجة ← شاشة تشخيص
+  const pack = await window.SitesLoader.load();
+  if(!pack){ depts=[]; return; }
+  const data = pack.data;
+  const arr = Array.isArray(data) ? data : (data && data.depts);
+  if(!Array.isArray(arr)){ depts=[]; return; }
+  depts = arr;
+  applyUserProgress();
 }
 
 /* ============================ ROUTING ============================ */
