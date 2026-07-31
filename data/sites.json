@@ -1,477 +1,9 @@
 {
   "app": "eng-roadmap",
   "version": 1,
-  "exportedAt": 1785505389265,
-  "exportedBy": "seed",
+  "exportedAt": 1785506484702,
+  "exportedBy": "admin",
   "depts": [
-    {
-      "id": "civil",
-      "title": "الهندسة المدنية",
-      "subtitle": "Civil Engineering",
-      "color": "amber",
-      "icon": "hard-hat",
-      "description": "تصميم وتنفيذ المنشآت والطرق والكباري وشبكات المياه والصرف.",
-      "partitions": [
-        {
-          "id": "cv-p1",
-          "title": "الأساسيات",
-          "subtitle": "Foundation",
-          "color": "amber",
-          "icon": "layers",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "القاعدة العلمية المشتركة لبداية المشوار.",
-          "categories": [
-            {
-              "id": "cv-c1",
-              "title": "الرياضيات الهندسية",
-              "icon": "ruler",
-              "courses": [
-                {
-                  "id": "cv-x1",
-                  "title": "تفاضل وتكامل",
-                  "link": "#",
-                  "completed": false
-                },
-                {
-                  "id": "cv-x2",
-                  "title": "المعادلات التفاضلية",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "cv-c2",
-              "title": "ميكانيكا الإنشاءات",
-              "icon": "bridge",
-              "courses": [
-                {
-                  "id": "cv-x3",
-                  "title": "استاتيكا",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "cv-p2",
-          "title": "التخصص",
-          "subtitle": "Specialization",
-          "color": "amber",
-          "icon": "building-2",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "مسارات التخصص الدقيق.",
-          "categories": [
-            {
-              "id": "cv-c3",
-              "title": "هندسة التربة",
-              "icon": "layers",
-              "courses": [
-                {
-                  "id": "cv-x4",
-                  "title": "ميكانيكا التربة",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "cv-c4",
-              "title": "برمجيات",
-              "icon": "cpu",
-              "courses": [],
-              "subCategories": [
-                {
-                  "id": "cv-s1",
-                  "title": "التحليل الإنشائي",
-                  "icon": "cpu",
-                  "courses": [
-                    {
-                      "id": "cv-x5",
-                      "title": "SAP2000",
-                      "link": "#",
-                      "completed": false
-                    },
-                    {
-                      "id": "cv-x6",
-                      "title": "ETABS",
-                      "link": "#",
-                      "completed": false
-                    }
-                  ]
-                },
-                {
-                  "id": "cv-s2",
-                  "title": "الرسم",
-                  "icon": "pencil-ruler",
-                  "courses": [
-                    {
-                      "id": "cv-x7",
-                      "title": "AutoCAD",
-                      "link": "#",
-                      "completed": false
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "arch",
-      "title": "الهندسة المعمارية",
-      "subtitle": "Architecture",
-      "color": "rose",
-      "icon": "landmark",
-      "description": "التصميم المعماري والتخطيط العمراني وإدارة المشروعات.",
-      "partitions": [
-        {
-          "id": "ar-p1",
-          "title": "أساسيات التصميم",
-          "subtitle": "Design Basics",
-          "color": "rose",
-          "icon": "pencil-ruler",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "مبادئ التصميم والتعبير المعماري.",
-          "categories": [
-            {
-              "id": "ar-c1",
-              "title": "نظريات العمارة",
-              "icon": "landmark",
-              "courses": [
-                {
-                  "id": "ar-x1",
-                  "title": "تاريخ العمارة",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "ar-c2",
-              "title": "برامج التصميم",
-              "icon": "cpu",
-              "courses": [
-                {
-                  "id": "ar-x2",
-                  "title": "Revit",
-                  "link": "#",
-                  "completed": false
-                },
-                {
-                  "id": "ar-x3",
-                  "title": "3ds Max",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "elec",
-      "title": "الهندسة الكهربائية",
-      "subtitle": "Electrical Engineering",
-      "color": "lime",
-      "icon": "zap",
-      "description": "القوى الكهربائية والآلات والتحكم والإلكترونيات.",
-      "partitions": [
-        {
-          "id": "el-p1",
-          "title": "القوى والآلات",
-          "subtitle": "Power & Machines",
-          "color": "lime",
-          "icon": "plug",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "أنظمة توليد ونقل وتوزيع الطاقة.",
-          "categories": [
-            {
-              "id": "el-c1",
-              "title": "الدوائر الكهربائية",
-              "icon": "circuit-board",
-              "courses": [
-                {
-                  "id": "el-x1",
-                  "title": "دوائر (1)",
-                  "link": "#",
-                  "completed": false
-                },
-                {
-                  "id": "el-x2",
-                  "title": "دوائر (2)",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "el-c2",
-              "title": "الآلات الكهربائية",
-              "icon": "cog",
-              "courses": [
-                {
-                  "id": "el-x3",
-                  "title": "آلات تيار مستمر",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "el-p-automation",
-          "title": "Automation",
-          "subtitle": "Industrial Automation",
-          "color": "lime",
-          "icon": "factory",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "مسار الأتمتة الصناعية من أساسيات الكهرباء و PLC إلى SCADA و HMI والتطبيقات المتقدمة.",
-          "categories": [
-            {
-              "id": "el-auto-stage1",
-              "title": "المرحلة 1: Electrical Basics & PLC",
-              "icon": "plug",
-              "courses": [
-                {
-                  "id": "el-auto-plc1",
-                  "title": "PLC Siemens S7-1200 بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=PLC+Siemens+S7+عربي+كورس",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-tia1",
-                  "title": "TIA Portal شرح بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=TIA+Portal+شرح+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-ladder1",
-                  "title": "Ladder Logic Programming عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Ladder+Logic+PLC+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-control1",
-                  "title": "Control Systems أساسيات (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=control+systems+شرح+عربي",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "el-auto-stage2",
-              "title": "المرحلة 2: SCADA & HMI",
-              "icon": "monitor",
-              "courses": [
-                {
-                  "id": "el-auto-scada1",
-                  "title": "SCADA Systems شرح عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=SCADA+شرح+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-wincc1",
-                  "title": "WinCC SCADA بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=WinCC+SCADA+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-hmi1",
-                  "title": "HMI Design بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=HMI+design+عربي",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "el-auto-stage3",
-              "title": "المرحلة 3: Advanced",
-              "icon": "rocket",
-              "courses": [
-                {
-                  "id": "el-auto-ab1",
-                  "title": "Allen Bradley PLC عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Allen+Bradley+PLC+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-iot1",
-                  "title": "Industrial IoT عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Industrial+IoT+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "el-auto-process1",
-                  "title": "Process Control عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Process+Control+شرح+عربي",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "mech",
-      "title": "الهندسة الميكانيكية",
-      "subtitle": "Mechanical Engineering",
-      "color": "orange",
-      "icon": "cog",
-      "description": "التصميم الميكانيكي والحراريات والتحكم والتصنيع.",
-      "partitions": [
-        {
-          "id": "mc-p1",
-          "title": "العلوم الحرارية",
-          "subtitle": "Thermal Sciences",
-          "color": "orange",
-          "icon": "gauge",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "الديناميكا الحرارية وانتقال الحرارة.",
-          "categories": [
-            {
-              "id": "mc-c1",
-              "title": "الديناميكا الحرارية",
-              "icon": "gauge",
-              "courses": [
-                {
-                  "id": "mc-x1",
-                  "title": "ثيرموديناميك (1)",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "mc-c2",
-              "title": "ميكانيكا الموائع",
-              "icon": "droplets",
-              "courses": [
-                {
-                  "id": "mc-x2",
-                  "title": "Fluid Mechanics",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "mc-p-mep",
-          "title": "MEP",
-          "subtitle": "MEP Roadmap",
-          "color": "orange",
-          "icon": "wrench",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "مسار MEP من الأساسيات وقراءة المخططات إلى HVAC والكهرباء والسباكة وبرامج BIM.",
-          "categories": [
-            {
-              "id": "mc-mep-stage1",
-              "title": "المرحلة 1: MEP Fundamentals",
-              "icon": "layers",
-              "courses": [
-                {
-                  "id": "mc-mep-f1",
-                  "title": "مقدمة MEP بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=MEP+مقدمة+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "mc-mep-f2",
-                  "title": "قراءة المخططات الهندسية MEP (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=قراءة+مخططات+هندسية+MEP",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "mc-mep-stage2",
-              "title": "المرحلة 2: HVAC — Mechanical",
-              "icon": "gauge",
-              "courses": [
-                {
-                  "id": "mc-mep-hvac1",
-                  "title": "HVAC Basics بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=HVAC+شرح+عربي+كورس",
-                  "completed": false
-                },
-                {
-                  "id": "mc-mep-duct1",
-                  "title": "Duct Design بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Duct+Design+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "mc-mep-fire1",
-                  "title": "Fire Fighting Systems عربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Fire+Fighting+Systems+عربي",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "mc-mep-stage3",
-              "title": "المرحلة 3: Electrical",
-              "icon": "zap",
-              "courses": [
-                {
-                  "id": "mc-mep-power1",
-                  "title": "Power Distribution بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Power+Distribution+شرح+عربي",
-                  "completed": false
-                },
-                {
-                  "id": "mc-mep-light1",
-                  "title": "Lighting Design بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Lighting+Design+شرح+عربي",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "mc-mep-stage4",
-              "title": "المرحلة 4: Plumbing",
-              "icon": "droplets",
-              "courses": [
-                {
-                  "id": "mc-mep-plumb1",
-                  "title": "Plumbing Systems بالعربي / سباكة (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Plumbing+سباكة+شرح+عربي",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "mc-mep-stage5",
-              "title": "المرحلة 5: BIM Software",
-              "icon": "pencil-ruler",
-              "courses": [
-                {
-                  "id": "mc-mep-acad1",
-                  "title": "AutoCAD MEP بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=AutoCAD+MEP+عربي+كورس",
-                  "completed": false
-                },
-                {
-                  "id": "mc-mep-revit1",
-                  "title": "Revit MEP بالعربي (بحث يوتيوب)",
-                  "link": "https://youtube.com/results?search_query=Revit+MEP+عربي+كورس",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
     {
       "id": "comm",
       "title": "الاتصالات والحاسبات",
@@ -480,43 +12,6 @@
       "icon": "radio",
       "description": "أنظمة الاتصالات ومعالجة الإشارات وشبكات الحاسب.",
       "partitions": [
-        {
-          "id": "cm-p1",
-          "title": "أنظمة الاتصالات",
-          "subtitle": "Comm. Systems",
-          "color": "cyan",
-          "icon": "satellite",
-          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
-          "description": "من أساسيات الإشارات إلى الأنظمة الرقمية.",
-          "categories": [
-            {
-              "id": "cm-c1",
-              "title": "الإشارات والأنظمة",
-              "icon": "activity",
-              "courses": [
-                {
-                  "id": "cm-x1",
-                  "title": "Signals & Systems",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            },
-            {
-              "id": "cm-c2",
-              "title": "الشبكات",
-              "icon": "network",
-              "courses": [
-                {
-                  "id": "cm-x2",
-                  "title": "Computer Networks",
-                  "link": "#",
-                  "completed": false
-                }
-              ]
-            }
-          ]
-        },
         {
           "id": "cm-p-embedded-systems",
           "title": "Embedded Systems",
@@ -1108,6 +603,304 @@
       ]
     },
     {
+      "id": "elec",
+      "title": "الهندسة الكهربائية",
+      "subtitle": "Electrical Engineering",
+      "color": "lime",
+      "icon": "zap",
+      "description": "القوى الكهربائية والآلات والتحكم والإلكترونيات.",
+      "partitions": [
+        {
+          "id": "el-p1",
+          "title": "القوى والآلات",
+          "subtitle": "Power & Machines",
+          "color": "lime",
+          "icon": "plug",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "أنظمة توليد ونقل وتوزيع الطاقة.",
+          "categories": [
+            {
+              "id": "el-c1",
+              "title": "الدوائر الكهربائية",
+              "icon": "circuit-board",
+              "courses": [
+                {
+                  "id": "el-x1",
+                  "title": "دوائر (1)",
+                  "link": "#",
+                  "completed": false
+                },
+                {
+                  "id": "el-x2",
+                  "title": "دوائر (2)",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "el-c2",
+              "title": "الآلات الكهربائية",
+              "icon": "cog",
+              "courses": [
+                {
+                  "id": "el-x3",
+                  "title": "آلات تيار مستمر",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "el-p-automation",
+          "title": "Automation",
+          "subtitle": "Industrial Automation",
+          "color": "lime",
+          "icon": "factory",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "مسار الأتمتة الصناعية من أساسيات الكهرباء و PLC إلى SCADA و HMI والتطبيقات المتقدمة.",
+          "categories": [
+            {
+              "id": "el-auto-stage1",
+              "title": "المرحلة 1: Electrical Basics & PLC",
+              "icon": "plug",
+              "courses": [
+                {
+                  "id": "el-auto-plc1",
+                  "title": "PLC Siemens S7-1200 بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=PLC+Siemens+S7+عربي+كورس",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-tia1",
+                  "title": "TIA Portal شرح بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=TIA+Portal+شرح+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-ladder1",
+                  "title": "Ladder Logic Programming عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Ladder+Logic+PLC+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-control1",
+                  "title": "Control Systems أساسيات (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=control+systems+شرح+عربي",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "el-auto-stage2",
+              "title": "المرحلة 2: SCADA & HMI",
+              "icon": "monitor",
+              "courses": [
+                {
+                  "id": "el-auto-scada1",
+                  "title": "SCADA Systems شرح عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=SCADA+شرح+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-wincc1",
+                  "title": "WinCC SCADA بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=WinCC+SCADA+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-hmi1",
+                  "title": "HMI Design بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=HMI+design+عربي",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "el-auto-stage3",
+              "title": "المرحلة 3: Advanced",
+              "icon": "rocket",
+              "courses": [
+                {
+                  "id": "el-auto-ab1",
+                  "title": "Allen Bradley PLC عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Allen+Bradley+PLC+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-iot1",
+                  "title": "Industrial IoT عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Industrial+IoT+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "el-auto-process1",
+                  "title": "Process Control عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Process+Control+شرح+عربي",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mech",
+      "title": "الهندسة الميكانيكية",
+      "subtitle": "Mechanical Engineering",
+      "color": "orange",
+      "icon": "cog",
+      "description": "التصميم الميكانيكي والحراريات والتحكم والتصنيع.",
+      "partitions": [
+        {
+          "id": "mc-p1",
+          "title": "العلوم الحرارية",
+          "subtitle": "Thermal Sciences",
+          "color": "orange",
+          "icon": "gauge",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "الديناميكا الحرارية وانتقال الحرارة.",
+          "categories": [
+            {
+              "id": "mc-c1",
+              "title": "الديناميكا الحرارية",
+              "icon": "gauge",
+              "courses": [
+                {
+                  "id": "mc-x1",
+                  "title": "ثيرموديناميك (1)",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "mc-c2",
+              "title": "ميكانيكا الموائع",
+              "icon": "droplets",
+              "courses": [
+                {
+                  "id": "mc-x2",
+                  "title": "Fluid Mechanics",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mc-p-mep",
+          "title": "MEP",
+          "subtitle": "MEP Roadmap",
+          "color": "orange",
+          "icon": "wrench",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "مسار MEP من الأساسيات وقراءة المخططات إلى HVAC والكهرباء والسباكة وبرامج BIM.",
+          "categories": [
+            {
+              "id": "mc-mep-stage1",
+              "title": "المرحلة 1: MEP Fundamentals",
+              "icon": "layers",
+              "courses": [
+                {
+                  "id": "mc-mep-f1",
+                  "title": "مقدمة MEP بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=MEP+مقدمة+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "mc-mep-f2",
+                  "title": "قراءة المخططات الهندسية MEP (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=قراءة+مخططات+هندسية+MEP",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "mc-mep-stage2",
+              "title": "المرحلة 2: HVAC — Mechanical",
+              "icon": "gauge",
+              "courses": [
+                {
+                  "id": "mc-mep-hvac1",
+                  "title": "HVAC Basics بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=HVAC+شرح+عربي+كورس",
+                  "completed": false
+                },
+                {
+                  "id": "mc-mep-duct1",
+                  "title": "Duct Design بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Duct+Design+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "mc-mep-fire1",
+                  "title": "Fire Fighting Systems عربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Fire+Fighting+Systems+عربي",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "mc-mep-stage3",
+              "title": "المرحلة 3: Electrical",
+              "icon": "zap",
+              "courses": [
+                {
+                  "id": "mc-mep-power1",
+                  "title": "Power Distribution بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Power+Distribution+شرح+عربي",
+                  "completed": false
+                },
+                {
+                  "id": "mc-mep-light1",
+                  "title": "Lighting Design بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Lighting+Design+شرح+عربي",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "mc-mep-stage4",
+              "title": "المرحلة 4: Plumbing",
+              "icon": "droplets",
+              "courses": [
+                {
+                  "id": "mc-mep-plumb1",
+                  "title": "Plumbing Systems بالعربي / سباكة (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Plumbing+سباكة+شرح+عربي",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "mc-mep-stage5",
+              "title": "المرحلة 5: BIM Software",
+              "icon": "pencil-ruler",
+              "courses": [
+                {
+                  "id": "mc-mep-acad1",
+                  "title": "AutoCAD MEP بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=AutoCAD+MEP+عربي+كورس",
+                  "completed": false
+                },
+                {
+                  "id": "mc-mep-revit1",
+                  "title": "Revit MEP بالعربي (بحث يوتيوب)",
+                  "link": "https://youtube.com/results?search_query=Revit+MEP+عربي+كورس",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "soft",
       "title": "المهارات الشخصية والمهنية",
       "subtitle": "Soft Skills",
@@ -1295,6 +1088,176 @@
                   "title": "Soft Skills كورس شامل مجاني بشهادة — منصة معارف",
                   "link": "https://m3aarf.com",
                   "completed": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arch",
+      "title": "الهندسة المعمارية",
+      "subtitle": "Architecture",
+      "color": "rose",
+      "icon": "landmark",
+      "description": "التصميم المعماري والتخطيط العمراني وإدارة المشروعات.",
+      "partitions": [
+        {
+          "id": "ar-p1",
+          "title": "أساسيات التصميم",
+          "subtitle": "Design Basics",
+          "color": "rose",
+          "icon": "pencil-ruler",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "مبادئ التصميم والتعبير المعماري.",
+          "categories": [
+            {
+              "id": "ar-c1",
+              "title": "نظريات العمارة",
+              "icon": "landmark",
+              "courses": [
+                {
+                  "id": "ar-x1",
+                  "title": "تاريخ العمارة",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "ar-c2",
+              "title": "برامج التصميم",
+              "icon": "cpu",
+              "courses": [
+                {
+                  "id": "ar-x2",
+                  "title": "Revit",
+                  "link": "#",
+                  "completed": false
+                },
+                {
+                  "id": "ar-x3",
+                  "title": "3ds Max",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "civil",
+      "title": "الهندسة المدنية",
+      "subtitle": "Civil Engineering",
+      "color": "amber",
+      "icon": "hard-hat",
+      "description": "تصميم وتنفيذ المنشآت والطرق والكباري وشبكات المياه والصرف.",
+      "partitions": [
+        {
+          "id": "cv-p1",
+          "title": "الأساسيات",
+          "subtitle": "Foundation",
+          "color": "amber",
+          "icon": "layers",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "القاعدة العلمية المشتركة لبداية المشوار.",
+          "categories": [
+            {
+              "id": "cv-c1",
+              "title": "الرياضيات الهندسية",
+              "icon": "ruler",
+              "courses": [
+                {
+                  "id": "cv-x1",
+                  "title": "تفاضل وتكامل",
+                  "link": "#",
+                  "completed": false
+                },
+                {
+                  "id": "cv-x2",
+                  "title": "المعادلات التفاضلية",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "cv-c2",
+              "title": "ميكانيكا الإنشاءات",
+              "icon": "bridge",
+              "courses": [
+                {
+                  "id": "cv-x3",
+                  "title": "استاتيكا",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cv-p2",
+          "title": "التخصص",
+          "subtitle": "Specialization",
+          "color": "amber",
+          "icon": "building-2",
+          "image": "data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'640'%20height%3D'360'%3E%3Crect%20width%3D'100%25'%20height%3D'100%25'%20fill%3D'%230d2137'%2F%3E%3Cg%20stroke%3D'%231b3650'%20stroke-width%3D'1'%3E%3Cpath%20d%3D'M0%2060H640M0%20120H640M0%20180H640M0%20240H640M0%20300H640M80%200V360M160%200V360M240%200V360M320%200V360M400%200V360M480%200V360M560%200V360'%2F%3E%3C%2Fg%3E%3Ctext%20x%3D'50%25'%20y%3D'50%25'%20font-family%3D'monospace'%20font-size%3D'22'%20fill%3D'%2338618a'%20text-anchor%3D'middle'%20dy%3D'.3em'%3EPARTITION%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "description": "مسارات التخصص الدقيق.",
+          "categories": [
+            {
+              "id": "cv-c3",
+              "title": "هندسة التربة",
+              "icon": "layers",
+              "courses": [
+                {
+                  "id": "cv-x4",
+                  "title": "ميكانيكا التربة",
+                  "link": "#",
+                  "completed": false
+                }
+              ]
+            },
+            {
+              "id": "cv-c4",
+              "title": "برمجيات",
+              "icon": "cpu",
+              "courses": [],
+              "subCategories": [
+                {
+                  "id": "cv-s1",
+                  "title": "التحليل الإنشائي",
+                  "icon": "cpu",
+                  "courses": [
+                    {
+                      "id": "cv-x5",
+                      "title": "SAP2000",
+                      "link": "#",
+                      "completed": false
+                    },
+                    {
+                      "id": "cv-x6",
+                      "title": "ETABS",
+                      "link": "#",
+                      "completed": false
+                    }
+                  ]
+                },
+                {
+                  "id": "cv-s2",
+                  "title": "الرسم",
+                  "icon": "pencil-ruler",
+                  "courses": [
+                    {
+                      "id": "cv-x7",
+                      "title": "AutoCAD",
+                      "link": "#",
+                      "completed": false
+                    }
+                  ]
                 }
               ]
             }
