@@ -1,7 +1,7 @@
 {
   "app": "eng-roadmap",
   "version": 1,
-  "exportedAt": 1785506484702,
+  "exportedAt": 1785509416236,
   "exportedBy": "admin",
   "depts": [
     {
@@ -215,7 +215,7 @@
               "notes": [
                 {
                   "id": "cm-es-stage2-n1",
-                  "text": "Communication Protocols مثل UART و SPI و I2C و CAN موجودة أيضًا ضمن كورسات AVR و STM32 المذكورة في هذه المرحلة.",
+                  "text": "Communication Protocols مثل UART و SPI و I2C و CAN موجودة أيضًا ضمن كورسات AVR و STM32 المذكورة في المرحلة.",
                   "date": "2026-07-24T00:00:00.000Z"
                 }
               ]
