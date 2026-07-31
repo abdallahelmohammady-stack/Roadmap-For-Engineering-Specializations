@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="خارطة طريق أقسام الهندسة">
+<title>Engineering Roadmap</title>
+<link rel="icon" href="favicon.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.485.0/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode:'class',
+  theme:{ extend:{
+    fontFamily:{ sans:['Cairo','sans-serif'], mono:['IBM Plex Mono','monospace'] },
+    colors:{ ink:{ 950:'#06131f', 900:'#0a1a2c', 800:'#0d2137', 700:'#12293f', 600:'#1b3650' } }
+  }}
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+
+<body class="min-h-screen font-sans overflow-x-hidden relative">
+<div class="bg-anim" aria-hidden="true"></div>
+<svg class="compass" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="#38bdf8" stroke-width="1"/><circle cx="100" cy="100" r="70" fill="none" stroke="#38bdf8" stroke-width="1"/><g stroke="#38bdf8" stroke-width="1"><line x1="100" y1="5" x2="100" y2="195"/><line x1="5" y1="100" x2="195" y2="100"/><line x1="30" y1="30" x2="170" y2="170"/><line x1="170" y1="30" x2="30" y2="170"/></g><circle cx="100" cy="100" r="6" fill="#38bdf8"/></svg>
+
+<!-- ============ TOP BAR ============ -->
+<header class="fixed top-0 inset-x-0 z-40">
+  <div class="bg-ink-900/95 backdrop-blur-md border-b border-[rgba(120,180,230,.16)]">
+    <div class="max-w-[1400px] mx-auto px-3 sm:px-5 h-[62px] flex items-center gap-3">
+      <!-- brand -->
+      <div class="flex items-center gap-2.5 cursor-pointer shrink-0 group" onclick="go('home')">
+        <div class="w-10 h-10 rounded-xl grid place-items-center bg-[rgba(56,189,248,.12)] border border-[rgba(56,189,248,.3)] group-hover:bg-[rgba(56,189,248,.2)] transition">
+          <i data-lucide="compass" class="w-5 h-5 text-sky-400"></i>
+        </div>
+        <div class="hidden sm:block leading-tight">
+          <div class="font-mono font-bold text-[15px] tracking-tight text-white">ENGINEERING<span class="text-sky-400">·</span>Roadmap</div>
+          <div class="text-[9.5px] uppercase tracking-[.25em] text-[#7f9bb3] font-bold">خارطة أقسام الهندسة</div>
+        </div>
+      </div>
+
+      <!-- tabs -->
+      <nav id="tabs" class="tabs flex items-end gap-1.5 overflow-x-auto flex-1 self-stretch pt-2 px-1" style="scrollbar-width:thin"></nav>
+
+      <!-- controls -->
+      <div class="flex items-center gap-2 shrink-0">
+        
+        
+      </div>
+    </div>
+  </div>
+  <div class="ruler"></div>
+</header>
+
+<main class="relative z-10 max-w-[1400px] mx-auto px-3 sm:px-5 pt-[112px] pb-28">
+  <!-- HOME / OVERVIEW -->
+  <section id="view-home" class="hidden fadein">
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 text-[11px] font-mono font-bold tracking-[.2em] text-sky-400 border border-[rgba(56,189,248,.3)] rounded-full px-4 py-1.5 mb-5 bg-[rgba(56,189,248,.06)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> SYSTEM · ONLINE
+      </div>
+      <h1 class="text-3xl md:text-5xl font-black mb-3 text-white">تخصصات الاقسام <span class="text-sky-400">الهندسية</span></h1>
+      <p class="text-[#9fb6cb] max-w-xl mx-auto text-[15px]">اختر قسمًا من الشريط العلوي لبدء رحلتك. كل تعديلاتك تُحفظ تلقائيًا على جهازك.</p>
+    </div>
+    <div id="dept-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </section>
+
+  <!-- DEPARTMENT PAGE -->
+  <section id="view-dept" class="hidden fadein">
+    <div id="dept-head"></div>
+    <div class="flex items-center justify-between flex-wrap gap-3 my-6">
+      <button onclick="go('home')" class="flex items-center gap-2 text-[12px] font-bold text-[#9fb6cb] hover:text-sky-400 transition uppercase tracking-wide">
+        <i data-lucide="arrow-right" class="w-4 h-4"></i> رجوع للرئيسية
+      </button>
+      
+    </div>
+    <div id="partitions" class="partitions-grid"></div>
+  </section>
+
+  <!-- PARTITION DETAILS -->
+  <section id="view-partition" class="hidden fadein">
+    <div id="partition-detail"></div>
+  </section>
+
+  <!-- CATEGORY DETAILS -->
+  <section id="view-category" class="hidden fadein">
+    <div id="category-detail"></div>
+  </section>
+</main>
+
+<div id="mini-toast" class="mini-toast"></div>
+
+<footer class="fixed bottom-0 inset-x-0 z-30 bg-ink-900/95 backdrop-blur-md border-t border-[rgba(120,180,230,.16)] py-3">
+  <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-center gap-4 text-[10.5px] font-mono uppercase tracking-widest text-[#7f9bb3]">
+    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> النظام يعمل</span>
+    <span class="opacity-40">|</span>
+    <span>Made By Abdalllah Elmohammady</span>
+    <span class="opacity-40">|</span>
+    
+  </div>
+</footer>
+
+
+<script src="js/viewer.js"></script>
+</body>
+</html>
