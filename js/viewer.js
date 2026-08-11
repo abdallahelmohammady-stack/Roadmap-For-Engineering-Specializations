@@ -266,6 +266,46 @@ function saveUserProgress(){
   }));
   try{ localStorage.setItem(USER_PROGRESS_KEY, JSON.stringify(map)); }catch(e){}
 }
+/* ---------------- تصدير «تقدمي» لموقع StudyHub (قسم الاتصالات والحاسبات بس) ----------------
+   ينزّل roadmap-progress.json بصيغة studyhub-progress: أسماء البارتيشنات والكورسات وحالتها. */
+const STUDYHUB_DEPT = 'comm';
+function exportMyProgress(){
+  try{
+    const d = depts.find(x=>x.id===STUDYHUB_DEPT);
+    if(!d) throw new Error('dept missing');
+    let map = {};
+    try{ map = JSON.parse(localStorage.getItem(USER_PROGRESS_KEY) || '{}') || {}; }catch(e){}
+    const groups = []; let t=0, dn=0;
+    (d.partitions||[]).forEach(p=>{
+      const items = [];
+      const walk = cats => (cats||[]).forEach(c=>{
+        (c.courses||[]).forEach(co=>{
+          const isDone = !!map[co.id]; t++; if(isDone) dn++;
+          items.push({ id: co.id, name: co.title || 'كورس', done: isDone });
+        });
+        if(c.subCategories) walk(c.subCategories);
+      });
+      walk(p.categories||[]);
+      if(items.length) groups.push({ id: p.id, name: p.name || p.title || p.id, items: items });
+    });
+    const payload = {
+      app:'eng-roadmap', type:'studyhub-progress', version:1, exportedAt: Date.now(),
+      label:'الكورسات الهندسية — ' + (d.title || ''), scope:'dept:' + STUDYHUB_DEPT,
+      stats:{ total:t, done:dn }, groups: groups
+    };
+    const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'roadmap-progress.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+    showToast('اتنزّل ملف تقدمك في «' + (d.title||'القسم') + '» — ارفعه في StudyHub 📊');
+  }catch(err){
+    console.error(err);
+    showToast('حصلت مشكلة أثناء تجهيز ملف التقدم', true);
+  }
+}
+
 function applyUserProgress(){
   let map = {};
   try{ map = JSON.parse(localStorage.getItem(USER_PROGRESS_KEY) || '{}'); }catch(e){}
