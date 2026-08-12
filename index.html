@@ -1,122 +1,107 @@
 <!DOCTYPE html>
-
-<html lang="en" class="scroll-smooth">
-
+<html lang="ar" dir="rtl" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cybersecurity Learning Roadmap">
-    <title>CyberPentest Roadmap</title>
-    <link rel="icon" href="favicon.png">
-    <!-- الجولة الجديدة: أبيض هو الافتراضي — الليلي اختياري من الزرار ومحفوظ على الجهاز (من غير فلاش أبيض) -->
-    <script>
-        (function(){ try { if (localStorage.getItem('cyberTheme_v1') === 'dark') document.documentElement.classList.add('dark'); } catch(e){} })();
-    </script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.485.0/dist/umd/lucide.min.js"></script>
-    <!-- Google Fonts (+ Caveat للتوقيع) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Orbitron:wght@500;700;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['Orbitron', 'monospace'],
-                    },
-                    colors: {
-                        cyber: {
-                            cyan: '#00f3ff',
-                            red: '#ff003c',
-                            purple: '#bc13fe',
-                            dark: '#050505',
-                        }
-                    },
-                    animation: {
-                        'scanline': 'scanline 6s linear infinite',
-                    },
-                    keyframes: {
-                        scanline: {
-                            '0%': { top: '-10%', opacity: '0' },
-                            '50%': { opacity: '0.3', boxShadow: '0 0 20px rgba(0, 243, 255, 0.2)' },
-                            '100%': { top: '110%', opacity: '0' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body class="bg-gray-50 text-slate-900 dark:bg-[#020202] dark:text-white min-h-screen selection:bg-cyan-500 selection:text-white relative overflow-x-hidden font-sans">
-    <!-- الخلفية المتحركة (ممنوع اللمس) -->
-    <canvas id="matrix-canvas"></canvas>
-    <div class="scan-beam"></div>
-    <div class="vignette"></div>
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-40 bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="goHome()">
-                <div class="p-2 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors border border-cyan-500/20">
-                    <i data-lucide="terminal" class="w-6 h-6 text-cyan-600 dark:text-cyan-400"></i>
-                </div>
-                <div>
-                    <span class="font-mono font-bold text-xl tracking-tighter text-slate-900 dark:text-white block leading-none">CYBER<span class="text-cyan-600 dark:text-cyan-400">PENTEST</span></span>
-                    <span class="text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-gray-500 font-bold">Advanced Roadmap</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-2">
-                <!-- زرار الوضع الليلي (الافتراضي أبيض) -->
-                <button id="theme-toggle" onclick="toggleTheme()" title="التبديل بين الأبيض والليلي" class="w-9 h-9 flex items-center justify-center rounded-full border border-slate-300 dark:border-gray-700 text-slate-600 dark:text-gray-300 hover:border-cyan-500 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all"></button>
-            </div>
-        </div>
-    </nav>
-    <!-- Main Content -->
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-32">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="خارطة طريق أقسام الهندسة">
+<title>Engineering Roadmap</title>
+<link rel="icon" href="favicon.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.485.0/dist/umd/lucide.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode:'class',
+  theme:{ extend:{
+    fontFamily:{ sans:['Cairo','sans-serif'], mono:['IBM Plex Mono','monospace'] },
+    colors:{ ink:{ 950:'#06131f', 900:'#0a1a2c', 800:'#0d2137', 700:'#12293f', 600:'#1b3650' } }
+  }}
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
 
-        <!-- Dashboard View -->
-        <div id="dashboard-view" class="hidden">
-            <div class="text-center mb-10">
-                <p class="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-cyan-600 dark:text-cyan-400 mb-3">Web Penetration Testing · Roadmap</p>
-                <h1 class="text-4xl md:text-6xl font-black font-mono mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-cyan-700 to-indigo-600 dark:from-white dark:via-cyan-300 dark:to-indigo-400 uppercase">Your Path, Level by Level</h1>
-                <p class="text-base md:text-lg text-slate-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">اتبع المستويات بالترتيب، علّم على اللي خلّصته — وتقدّمك محفوظ على جهازك وتقدر تحمّله ملف وتنقله لأي جهاز.</p>
-            </div>
-            <!-- داشبورد التقدم والمحتوى -->
-            <div id="stats-panel"></div>
-            <!-- الوورك فلو: مسار المستويات -->
-            <div id="workflow-wrap"></div>
-            <!-- شبكة الليفلز -->
-            <div id="cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full"></div>
-            <!-- الموارد الإضافية -->
-            <div id="resources-wrap"></div>
+<body class="min-h-screen font-sans overflow-x-hidden relative">
+<div class="bg-anim" aria-hidden="true"></div>
+<svg class="compass" viewBox="0 0 200 200"><circle cx="100" cy="100" r="95" fill="none" stroke="#38bdf8" stroke-width="1"/><circle cx="100" cy="100" r="70" fill="none" stroke="#38bdf8" stroke-width="1"/><g stroke="#38bdf8" stroke-width="1"><line x1="100" y1="5" x2="100" y2="195"/><line x1="5" y1="100" x2="195" y2="100"/><line x1="30" y1="30" x2="170" y2="170"/><line x1="170" y1="30" x2="30" y2="170"/></g><circle cx="100" cy="100" r="6" fill="#38bdf8"/></svg>
+
+<!-- ============ TOP BAR ============ -->
+<header class="fixed top-0 inset-x-0 z-40">
+  <div class="bg-ink-900/95 backdrop-blur-md border-b border-[rgba(120,180,230,.16)]">
+    <div class="max-w-[1400px] mx-auto px-3 sm:px-5 h-[62px] flex items-center gap-3">
+      <!-- brand -->
+      <div class="flex items-center gap-2.5 cursor-pointer shrink-0 group" onclick="go('home')">
+        <div class="w-10 h-10 rounded-xl grid place-items-center bg-[rgba(56,189,248,.12)] border border-[rgba(56,189,248,.3)] group-hover:bg-[rgba(56,189,248,.2)] transition">
+          <i data-lucide="compass" class="w-5 h-5 text-sky-400"></i>
         </div>
-        <!-- Detail View -->
-        <div id="detail-view" class="hidden">
-            <div class="flex items-center justify-between mb-8">
-                <button onclick="goHome()" class="flex items-center gap-2 text-sm font-mono font-bold text-slate-500 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all tracking-wide uppercase group">
-                    <i data-lucide="arrow-left" class="w-4 h-4 group-hover:-translate-x-1 transition-transform"></i> Back to Path
-                </button>
-                <button id="add-category-btn" class="hidden px-4 py-2 bg-slate-100 dark:bg-gray-800 border border-slate-300 dark:border-gray-700 hover:border-cyan-500 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold uppercase transition-all flex items-center gap-2">
-                    <i data-lucide="folder-plus" class="w-4 h-4"></i> Add Category
-                </button>
-            </div>
-            <div id="section-container" class="relative"></div>
+        <div class="hidden sm:block leading-tight">
+          <div class="font-mono font-bold text-[15px] tracking-tight text-white">ENGINEERING<span class="text-sky-400">·</span>Roadmap</div>
+          <div class="text-[9.5px] uppercase tracking-[.25em] text-[#7f9bb3] font-bold">خارطة أقسام الهندسة</div>
         </div>
-    </main>
-    <!-- Footer — الشريط السفلي فيه التوقيع -->
-    <footer class="py-4 text-center text-xs font-mono text-slate-500 dark:text-gray-600 uppercase tracking-widest border-t border-gray-200 dark:border-gray-800">
-        <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-1 px-4">
-            <span class="flex items-center gap-1"><div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div> System: Online</span>
-            <span class="hidden sm:inline">|</span>
-            <span class="bp-signature" dir="ltr">Created by abdallah elmohammady</span>
-        </div>
-    </footer>
-    <input type="file" id="progress-import-input" accept=".json,application/json" class="hidden" onchange="importProgress(this)">
-    <div id="mini-toast" class="mini-toast"></div>
-    <script src="js/viewer.js"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a29f16757fa3dad4',t:'MTc4NjUzMzU5NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f"}' crossorigin="anonymous"></script>
+      </div>
+
+      <!-- tabs -->
+      <nav id="tabs" class="tabs flex items-end gap-1.5 overflow-x-auto flex-1 self-stretch pt-2 px-1" style="scrollbar-width:thin"></nav>
+
+      <!-- controls -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button onclick="exportMyProgress()" title="حمّل ملف تقدمك في قسم الاتصالات والحاسبات (لموقع StudyHub)" class="pillbtn pill-primary !py-2">
+          <i data-lucide="cloud-download" class="w-4 h-4"></i><span class="hidden sm:inline">ملف تقدمي</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="ruler"></div>
+</header>
+
+<main class="relative z-10 max-w-[1400px] mx-auto px-3 sm:px-5 pt-[112px] pb-28">
+  <!-- HOME / OVERVIEW -->
+  <section id="view-home" class="hidden fadein">
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-2 text-[11px] font-mono font-bold tracking-[.2em] text-sky-400 border border-[rgba(56,189,248,.3)] rounded-full px-4 py-1.5 mb-5 bg-[rgba(56,189,248,.06)]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> SYSTEM · ONLINE
+      </div>
+      <h1 class="text-3xl md:text-5xl font-black mb-3 text-white">تخصصات الاقسام <span class="text-sky-400">الهندسية</span></h1>
+      <p class="text-[#9fb6cb] max-w-xl mx-auto text-[15px]">اختر قسمًا من الشريط العلوي لبدء رحلتك. كل تعديلاتك تُحفظ تلقائيًا على جهازك.</p>
+    </div>
+    <div id="dept-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </section>
+
+  <!-- DEPARTMENT PAGE -->
+  <section id="view-dept" class="hidden fadein">
+    <div id="dept-head"></div>
+    <div class="flex items-center justify-between flex-wrap gap-3 my-6">
+      <button onclick="go('home')" class="flex items-center gap-2 text-[12px] font-bold text-[#9fb6cb] hover:text-sky-400 transition uppercase tracking-wide">
+        <i data-lucide="arrow-right" class="w-4 h-4"></i> رجوع للرئيسية
+      </button>
+      
+    </div>
+    <div id="partitions" class="partitions-grid"></div>
+  </section>
+
+  <!-- PARTITION DETAILS -->
+  <section id="view-partition" class="hidden fadein">
+    <div id="partition-detail"></div>
+  </section>
+
+  <!-- CATEGORY DETAILS -->
+  <section id="view-category" class="hidden fadein">
+    <div id="category-detail"></div>
+  </section>
+</main>
+
+<div id="mini-toast" class="mini-toast"></div>
+
+<footer class="fixed bottom-0 inset-x-0 z-30 bg-ink-900/95 backdrop-blur-md border-t border-[rgba(120,180,230,.16)] py-3">
+  <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-center gap-4 text-[10.5px] font-mono uppercase tracking-widest text-[#7f9bb3]">
+    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> النظام يعمل</span>
+    <span class="opacity-40">|</span>
+    <span class="bp-signature" dir="ltr">Created by abdallah elmohammady</span>
+    <span class="opacity-40">|</span>
+    
+  </div>
+</footer>
+
+
+<script src="js/viewer.js"></script>
 </body>
 </html>
