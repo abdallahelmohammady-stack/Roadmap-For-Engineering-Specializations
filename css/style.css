@@ -203,12 +203,13 @@ body{
    الفوتر جواه font-mono + uppercase + tracking-wide، فبنرجّعهم للطبيعي هنا */
 .bp-signature { font-family:'Caveat',cursive; font-weight:600; font-size:1.35rem; line-height:1; color:#38bdf8; text-transform:none; letter-spacing:normal; }
 
-/* ---------- الشريط السفلي على الموبايل (توزيع أحسن) ----------
-   اللفّ flex-wrap بقى متاح دايمًا من الكلاسات؛ هنا بنظّم الشكل على المقاسات الصغيرة بس:
-   «النظام يعمل» في سطر لوحده، الفواصل بتتشال، والتوقيع بيصغّر شوية — الديسكتوب غير متأثر */
+/* ---------- الشريط السفلي على الموبايل (عمود متوسط — توزيع مضمون) ----------
+   بدل التزاحم الأفقي: على الشاشات الصغيرة الشريط كله بيتحوّل لعمود،
+   كل عنصر في سطر لوحده ومتوسط — مستحيل يتعصر أو يخرج برّه الإطار.
+   الفواصل «|» بتتشال، والتوقيع بيصغّر لـ 1.08rem فيفضل سطر واحد.
+   الديسكتوب (>640px) غير متأثر خالص — كل القواعد جوه الميديا دي بس */
 @media (max-width: 640px) {
-  .bp-footer-inner { column-gap: 10px; row-gap: 3px; padding-top: 2px; }
-  .bp-footer-inner > span:first-child { flex-basis: 100%; justify-content: center; }
+  .bp-footer-inner { flex-direction: column; row-gap: 2px; column-gap: 10px; padding-top: 4px; padding-bottom: 4px; }
   .bp-footer-inner > .opacity-40 { display: none; }
-  .bp-footer-inner .bp-signature { font-size: 1.08rem; white-space: nowrap; }
+  .bp-footer-inner .bp-signature { font-size: 1.08rem; white-space: nowrap; line-height: 1.2; }
 }
