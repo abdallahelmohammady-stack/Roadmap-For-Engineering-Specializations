@@ -1,0 +1,12 @@
+/* مدخل بناء Tailwind (vendor.css) — متعدّلوش بإيدك؛ لو اتغيّر شغّل إعادة البناء */
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@theme {
+  --font-sans: 'Cairo', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --color-ink-950: #06131f;
+  --color-ink-900: #0a1a2c;
+  --color-ink-800: #0d2137;
+  --color-ink-700: #12293f;
+  --color-ink-600: #1b3650;
+}

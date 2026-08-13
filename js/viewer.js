@@ -376,9 +376,59 @@ async function loadDeptsFromJson(){
 }
 
 /* ============================ ROUTING ============================ */
-function go(target){ currentPartition=null; currentCategory=null; current=target; history.pushState(null,'', target==='home'? location.pathname : location.pathname+'#'+target); render(); window.scrollTo({top:0}); }
-function openPartition(id){ const r=locate(id); if(!r || r.kind!=='partition') return; current=r.dept.id; currentPartition=id; currentCategory=null; history.pushState(null,'',location.pathname+'#'+current+'/'+id); render(); window.scrollTo({top:0}); }
-function openCategory(id){ const r=locate(id); if(!r || r.kind!=='category') return; current=r.dept.id; currentPartition=r.part.id; currentCategory=id; history.pushState(null,'',location.pathname+'#'+current+'/'+currentPartition+'/'+id); render(); window.scrollTo({top:0}); }
+function go(target){ currentPartition=null; currentCategory=null; current=target; history.pushState(null,'', target==='home'? location.pathname : location.pathname+'#'+target); closeRailDrawer(); render(); window.scrollTo({top:0}); }
+function openPartition(id){ const r=locate(id); if(!r || r.kind!=='partition') return; current=r.dept.id; currentPartition=id; currentCategory=null; history.pushState(null,'',location.pathname+'#'+current+'/'+id); closeRailDrawer(); render(); window.scrollTo({top:0}); }
+/* 🗒️ جولة النوتس — باليت كروت «الستيكي» بنفس ألوان موقع المواد حرفيًا */
+const NOTE_COLORS_LIGHT = [
+  { bg: 'linear-gradient(135deg,#fef9c3,#fef08a)', color: '#713f12' },
+  { bg: 'linear-gradient(135deg,#dbeafe,#bfdbfe)', color: '#1e3a8a' },
+  { bg: 'linear-gradient(135deg,#dcfce7,#bbf7d0)', color: '#166534' },
+  { bg: 'linear-gradient(135deg,#fce7f3,#fbcfe8)', color: '#9d174d' },
+  { bg: 'linear-gradient(135deg,#f3e8ff,#e9d5ff)', color: '#5b21b6' }
+];
+const NOTE_COLORS_DARK = [
+  { bg: 'linear-gradient(135deg,#78350f,#92400e)', color: '#fef3c7' },
+  { bg: 'linear-gradient(135deg,#1e3a8a,#1e40af)', color: '#dbeafe' },
+  { bg: 'linear-gradient(135deg,#14532d,#166534)', color: '#d1fae5' },
+  { bg: 'linear-gradient(135deg,#831843,#9d174d)', color: '#fce7f3' },
+  { bg: 'linear-gradient(135deg,#4c1d95,#6d28d9)', color: '#ede9fe' }
+];
+/* 🌗 جولة النايت مود — بنختار باليت النوتس وقت الرسم حسب الثيم الحالي (دارك افتراضي / لايت) */
+let currentCatTab = 'content';
+let lastCatId = null;
+function setCatTab(t){ currentCatTab = t; renderCategoryDetail(); }
+
+/* 🗂️ جولة السايد بار — دروّير جانبي بسلوك مواد بالظبط (FAB عائم + باكدروب + انزلاق translateX) */
+let railOpen = false;
+function paintRail(){
+  const r=$('rail'), b=$('rail-backdrop'), f=$('rail-fab');
+  if(!r||!b||!f) return;
+  r.classList.toggle('open', railOpen);
+  b.classList.toggle('show', railOpen);
+  f.innerHTML = railOpen ? '<i data-lucide="x"></i>' : '<i data-lucide="menu"></i>';
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+function toggleRailDrawer(){ railOpen = !railOpen; paintRail(); }
+function closeRailDrawer(){ if(!railOpen) return; railOpen = false; paintRail(); }
+
+/* 🌗 جولة النايت مود — الافتراضي داكن (هوية الموقع)، النهاري بيتخزن في er_theme */
+const THEME_KEY = 'er_theme';
+function isLightTheme(){ return document.documentElement.classList.contains('light'); }
+function applyTheme(t){
+  const light = t==='light';
+  document.documentElement.classList.toggle('dark', !light);
+  document.documentElement.classList.toggle('light', light);
+  try{ localStorage.setItem(THEME_KEY, light?'light':'dark'); }catch(e){}
+  paintThemeBtn();
+}
+function toggleTheme(){ applyTheme(isLightTheme()?'dark':'light'); }
+function paintThemeBtn(){
+  const b=$('theme-toggle'); if(!b) return;
+  b.innerHTML='<i data-lucide="'+(isLightTheme()?'moon':'sun')+'" class="w-4 h-4"></i>';
+  if(typeof lucide!=='undefined') lucide.createIcons();
+}
+
+function openCategory(id){ const r=locate(id); if(!r || r.kind!=='category') return; current=r.dept.id; currentPartition=r.part.id; currentCategory=id; history.pushState(null,'',location.pathname+'#'+current+'/'+currentPartition+'/'+id); closeRailDrawer(); render(); window.scrollTo({top:0}); }
 window.addEventListener('popstate', ()=>{ const [deptId, partId, catId]=location.hash.replace('#','').split('/'); current=(deptId && depts.find(d=>d.id===deptId))?deptId:'home'; currentPartition=(partId && locate(partId)?.kind==='partition')?partId:null; currentCategory=(catId && locate(catId)?.kind==='category')?catId:null; render(); });
 
 /* ============================ ADMIN / RESET ============================ */
@@ -429,6 +479,7 @@ function renderTabs(){
     t.insertAdjacentHTML('beforeend',
       `<button class="tab tab-add" onclick="openModal('dept')"><i data-lucide="plus" class="ic"></i> قسم جديد</button>`);
   }
+  paintThemeBtn();
 }
 
 function renderHome(){
@@ -501,7 +552,7 @@ function renderDept(){
     el.className='sheet partition-card cursor-pointer'; el.style.setProperty('--acc',pc); el.onclick=()=>openPartition(p.id);
     el.innerHTML = `
       <div class="partition-cover">
-        <img src="${p.image||defaultImage}" alt="${esc(p.title)}" onerror="this.src=defaultImage">
+        <img src="${p.image||defaultImage}" alt="${esc(p.title)}" loading="lazy" decoding="async" onerror="this.src=defaultImage">
         <div class="cover-icon" style="background:${pc}2b;border-color:${pc}80;color:${pc}"><i data-lucide="${p.icon}" class="w-5 h-5"></i></div>
       </div>
       <div class="sheet-head p-6">
@@ -510,7 +561,7 @@ function renderDept(){
             <div class="flex items-center gap-2 mb-1 flex-wrap"><span class="stamp" style="--acc:${pc}">PARTITION ${String(i+1).padStart(2,'0')}</span><span class="text-[10px] font-mono uppercase tracking-widest" style="color:${pc}">${esc(p.subtitle||'')}</span></div>
             <h3 class="text-xl font-black text-white">${esc(p.title)}</h3>
           </div>
-          <div class="ring !w-12 !h-12" style="--acc:${pc};--p:${pst.pct}"><span class="!w-[38px] !h-[38px] !text-[11px]">${pst.pct}%</span></div>
+          <div class="ring w-12! h-12!" style="--acc:${pc};--p:${pst.pct}"><span class="w-[38px]! h-[38px]! text-[11px]!">${pst.pct}%</span></div>
         </div>
         <p class="text-[14px] text-[#9fb6cb] mt-2 min-h-[44px]">${esc(p.description||'')}</p>
         <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-[rgba(120,180,230,.12)]">
@@ -540,7 +591,7 @@ function renderPartition(){
       ${addCat}
     </div>
     <div class="sheet" style="--acc:${pc}">
-      <div class="partition-cover !h-56 sm:!h-72"><img src="${p.image||defaultImage}" alt="${esc(p.title)}" onerror="this.src=defaultImage"><div class="cover-icon" style="background:${pc}2b;border-color:${pc}80;color:${pc}"><i data-lucide="${p.icon}" class="w-6 h-6"></i></div></div>
+      <div class="partition-cover h-56! sm:h-72!"><img src="${p.image||defaultImage}" alt="${esc(p.title)}" loading="lazy" decoding="async" onerror="this.src=defaultImage"><div class="cover-icon" style="background:${pc}2b;border-color:${pc}80;color:${pc}"><i data-lucide="${p.icon}" class="w-6 h-6"></i></div></div>
       <div class="sheet-head p-6 sm:p-8">
         <div class="flex items-start justify-between gap-4"><div><div class="flex items-center gap-2 mb-2 flex-wrap"><span class="stamp" style="--acc:${pc}">PARTITION</span><span class="text-[11px] font-mono uppercase tracking-widest" style="color:${pc}">${esc(p.subtitle||'')}</span></div><h2 class="text-2xl sm:text-3xl font-black text-white">${esc(p.title)}</h2><p class="text-[#9fb6cb] mt-2 text-sm">${esc(p.description||'')}</p></div><div class="flex items-center gap-3"><div class="ring" style="--acc:${pc};--p:${pst.pct}"><span>${pst.pct}%</span></div>${pAdmin}</div></div>
       </div>
@@ -584,6 +635,8 @@ function renderCategoryDetail(){
   const r=locate(currentCategory);
   if(!r || r.kind!=='category'){ currentCategory=null; render(); return; }
   const cat=r.node, part=r.part, d=r.dept, pc=acc(part.color), cst=stats(cat);
+  if(cat.id!==lastCatId){ currentCatTab='content'; lastCatId=cat.id; }
+  const ccnt=(cat.courses||[]).length + (cat.subCategories||[]).reduce((a,s)=>a+(s.courses||[]).length,0);
   let cAdmin=isAdmin ? `<div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
     <button class="icobtn" title="تعديل" onclick="openModal('category','${cat.id}')"><i data-lucide="edit-3" class="w-4 h-4"></i></button>
     <button class="icobtn del" title="حذف" onclick="del('${cat.id}')"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
@@ -600,7 +653,12 @@ function renderCategoryDetail(){
       <div class="sheet-head p-6 sm:p-8">
         <div class="flex items-start justify-between gap-4"><div><div class="flex items-center gap-2 mb-2 flex-wrap"><span class="stamp" style="--acc:${pc}">CATEGORY</span><span class="text-[11px] font-mono uppercase tracking-widest" style="color:${pc}">${esc(part.title)}</span></div><h2 class="text-2xl sm:text-3xl font-black text-white">${esc(cat.title)}</h2></div><div class="flex items-center gap-3"><div class="ring" style="--acc:${pc};--p:${cst.pct}"><span>${cst.pct}%</span></div>${cAdmin}</div></div>
       </div>
-      <div class="cat-card-body divide-y divide-[rgba(120,180,230,.06)] bg-[rgba(0,0,0,.15)]" id="category-content"></div>
+      <div class="nt-tabs">
+        <button type="button" onclick="setCatTab('content')" class="nt-tab ${currentCatTab==='content'?'on-content':''}"><i data-lucide="layers" class="w-4 h-4"></i> المحتوى (${ccnt})</button>
+        <button type="button" onclick="setCatTab('notes')" class="nt-tab ${currentCatTab==='notes'?'on-notes':''}"><i data-lucide="sticky-note" class="w-4 h-4"></i> الملاحظات (${(cat.notes||[]).length})</button>
+      </div>
+      <div class="cat-card-body divide-y divide-[rgba(120,180,230,.06)] bg-[rgba(0,0,0,.15)]" id="category-content" style="${currentCatTab==='notes'?'display:none':''}"></div>
+      <div id="category-notes" class="${currentCatTab==='notes'?'':'nt-hide'}"></div>
     </div>`;
   const body=$('category-content');
   (cat.courses||[]).forEach((co,i)=> body.appendChild(renderCourse(co, cat.id, i, cat.courses.length, pc)));
@@ -608,9 +666,9 @@ function renderCategoryDetail(){
     const subHead=document.createElement('div');
     subHead.className='px-5 py-3 bg-[rgba(0,0,0,.25)] flex items-center justify-between gap-2 flex-wrap';
     let subAdmin = isAdmin ? `<div class="flex items-center gap-1.5">
-        <button class="pillbtn pill-ghost !py-0.5 !px-2 !text-[10px]" onclick="openModal('course',null,'${sub.id}')"><i data-lucide="plus" class="w-3 h-3"></i> كورس</button>
-        <button class="icobtn !w-7 !h-7" title="تعديل" onclick="openModal('subcategory','${sub.id}')"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
-        <button class="icobtn del !w-7 !h-7" title="حذف" onclick="del('${sub.id}')"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+        <button class="pillbtn pill-ghost py-0.5! px-2! text-[10px]!" onclick="openModal('course',null,'${sub.id}')"><i data-lucide="plus" class="w-3 h-3"></i> كورس</button>
+        <button class="icobtn w-7! h-7!" title="تعديل" onclick="openModal('subcategory','${sub.id}')"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+        <button class="icobtn del w-7! h-7!" title="حذف" onclick="del('${sub.id}')"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
       </div>` : '';
     subHead.innerHTML=`<div class="flex items-center gap-2 text-[12px] font-bold uppercase tracking-wider" style="color:${pc}"><i data-lucide="${sub.icon}" class="w-4 h-4"></i> ${esc(sub.title)}</div>${subAdmin}`;
     body.appendChild(subHead);
@@ -620,12 +678,9 @@ function renderCategoryDetail(){
       body.insertAdjacentHTML('beforeend', `<div class="p-6 text-center text-[#7f9bb3] text-sm italic">لا توجد كورسات بعد.</div>`);
     }
 
-    // قسم ملاحظات مخصص ومنفصل عن المحتوى
-    const notesPanel=document.createElement('div');
-    notesPanel.className='sheet mt-8';
-    notesPanel.style.setProperty('--acc', pc);
-    notesPanel.appendChild(renderNotes(cat, pc));
-    wrap.appendChild(notesPanel);
+    // 🗒️ جولة النوتس: الملاحظات جوّه نفس الشيت تحت التاب بالظبط (مش شيت لحالها تحت الصفحة)
+    const notesPane=$('category-notes');
+    if(notesPane) notesPane.appendChild(renderNotes(cat, pc));
 
     lucide.createIcons();
   }
@@ -639,8 +694,8 @@ function renderCourse(co, parentId, i, total, pc){
       <button class="move" title="أسفل" onclick="move('${co.id}',1)" ${last?'disabled':''}><i data-lucide="arrow-down" class="w-3 h-3"></i></button>
     </div>` : '';
   let adm = isAdmin ? `<div class="flex gap-1.5 sm:opacity-0 group-hover:opacity-100 transition" onclick="event.stopPropagation()">
-      <button class="icobtn !w-8 !h-8" title="تعديل" onclick="openModal('course','${co.id}','${parentId}')"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
-      <button class="icobtn del !w-8 !h-8" title="حذف" onclick="del('${co.id}')"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>
+      <button class="icobtn w-8! h-8!" title="تعديل" onclick="openModal('course','${co.id}','${parentId}')"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+      <button class="icobtn del w-8! h-8!" title="حذف" onclick="del('${co.id}')"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>
     </div>` : '';
   row.innerHTML = `
     <div class="flex items-center gap-3 min-w-0 flex-1">
@@ -649,7 +704,7 @@ function renderCourse(co, parentId, i, total, pc){
       <span class="text-[14.5px] truncate ${co.completed?'text-[#7f9bb3] line-through':'text-[#e8f1f8]'}">${esc(co.title)}</span>
     </div>
     <div class="flex items-center gap-3 justify-end">
-      <a href="${esc(co.link)}" target="_blank" class="pillbtn pill-ghost !py-1.5 !text-[12px]" style="color:${pc};border-color:${pc}55">فتح المصدر <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>
+      <a href="${esc(co.link)}" target="_blank" class="pillbtn pill-ghost py-1.5! text-[12px]!" style="color:${pc};border-color:${pc}55">فتح المصدر <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>
       ${adm}
     </div>`;
   return row;
@@ -661,31 +716,36 @@ function fmtDate(s){
   }catch(e){ return ''; }
 }
 function renderNotes(cat, pc){
-  const sec=document.createElement('div');
-  sec.className='notes-section';
+  // 🗒️ جولة النوتس — كروت «ستيكي» ملوّنة بنفس شكل وتوزيعة موقع المواد حرفيًا
+  const wrapDiv=document.createElement('div');
+  wrapDiv.className='nt-notes-wrap';
   const notes=cat.notes||[];
-  let html=`<div class="flex items-center justify-between gap-2 mb-3">
-      <div class="flex items-center gap-2 text-[13px] font-bold" style="color:${pc}"><i data-lucide="sticky-note" class="w-4 h-4"></i> الملاحظات <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[rgba(255,255,255,.06)] text-[#9fb6cb]">${notes.length}</span></div>
-      ${isAdmin?`<button onclick="addNote('${cat.id}')" class="pillbtn pill-ghost !py-1.5 !text-[12px]" style="color:${pc};border-color:${pc}55"><i data-lucide="plus" class="w-4 h-4"></i> إضافة ملاحظة</button>`:''}
-    </div>`;
+  let html='';
+  if(isAdmin){
+    html+=`<div class="nt-notes-admin"><button onclick="addNote('${cat.id}')" class="pillbtn pill-ghost py-1.5! text-[12px]!" style="color:${pc};border-color:${pc}55"><i data-lucide="plus" class="w-4 h-4"></i> إضافة ملاحظة</button></div>`;
+  }
   if(!notes.length){
-    html+=`<div class="text-center text-[#7f9bb3] text-[13px] italic py-1">لا توجد ملاحظات بعد.</div>`;
+    html+=`<div class="nt-empty"><div class="nt-empty-ic"><i data-lucide="sticky-note" class="w-8 h-8"></i></div><p class="nt-empty-txt">لا توجد ملاحظات</p></div>`;
   } else {
-    html+='<div class="space-y-2.5">';
-    notes.forEach(n=>{
-      html+=`<div class="note-card">
-        <p class="note-text text-[13.5px] text-[#e8f1f8] leading-relaxed">${esc(n.text)}</p>
-        ${n.date?`<div class="text-[10px] font-mono text-[#7f9bb3] mt-2">${fmtDate(n.date)}</div>`:''}
-        ${isAdmin?`<div class="flex items-center gap-3 mt-2 pt-2 border-t border-[rgba(120,180,230,.1)]">
-          <button class="text-[12px] font-bold flex items-center gap-1.5 text-[#9fb6cb] hover:text-sky-400 transition" onclick="editNote('${cat.id}','${n.id}')"><i data-lucide="edit-2" class="w-4 h-4"></i> تعديل</button>
-          <button class="text-[12px] font-bold flex items-center gap-1.5 text-rose-400 hover:text-rose-300 transition" onclick="delNote('${cat.id}','${n.id}')"><i data-lucide="trash-2" class="w-4 h-4"></i> حذف</button>
-        </div>`:''}
+    html+='<div class="nt-grid">';
+    notes.forEach((n,i)=>{
+      const npal=isLightTheme()?NOTE_COLORS_LIGHT:NOTE_COLORS_DARK;
+      const ns=npal[i%npal.length];
+      html+=`<div class="nt-card" style="background:${ns.bg};color:${ns.color}">
+        <p class="nt-text">${esc(n.text)}</p>
+        <div class="nt-foot">
+          ${n.date?`<span class="nt-date">${new Date(n.date).toLocaleDateString('ar-EG')}</span>`:'<span class="nt-date"></span>'}
+          ${isAdmin?`<span class="nt-actions">
+            <button class="nt-act" onclick="editNote('${cat.id}','${n.id}')"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i> تعديل</button>
+            <button class="nt-act" onclick="delNote('${cat.id}','${n.id}')"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i> حذف</button>
+          </span>`:''}
+        </div>
       </div>`;
     });
     html+='</div>';
   }
-  sec.innerHTML=html;
-  return sec;
+  wrapDiv.innerHTML=html;
+  return wrapDiv;
 }
 
 function render(){

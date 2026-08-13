@@ -32,6 +32,15 @@ body{
 @keyframes bg-drift{ 0%{ transform:translate(-7%,-5%) scale(1);} 50%{ transform:translate(7%,5%) scale(1.12);} 100%{ transform:translate(-7%,-5%) scale(1);} }
 @media (prefers-reduced-motion: reduce){ .bg-anim::before,.bg-anim::after{ animation:none; } }
 
+/* ---- 📱 جولة الخفّة 2: على الموبايل — إيقاف حركة طبقتي الخلفية العملاقة
+   (150% من الشاشة × أنيميشن أبدي × will-change = طبقات GPU ضخمة بتلتهم
+   السكرول على الموبايل) والبوصلة الثابتة. التدرجات بتفضل ظاهرة ثابتة
+   بنفس الألوان — الشكل شبه مطابق، والديسكتوب مش متلمس خالص. ---- */
+@media (max-width: 768px){
+  .bg-anim::before,.bg-anim::after{ animation:none; will-change:auto; }
+  .compass{ animation:none; }
+}
+
 /* ---- top ruler strip ---- */
 .ruler{
   height:14px;
@@ -104,10 +113,28 @@ body{
 .cat-card-head .cat-chev{ transition:transform .2s ease; }
 .cat-card-head.collapsed .cat-chev{ transform:rotate(0deg); }
 
-/* ---- notes ---- */
-.notes-section{ padding:18px 18px 20px; background:rgba(0,0,0,.22); }
-.note-card{ background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025)); border:1px solid rgba(120,180,230,.18); border-left:3px solid var(--acc,#38bdf8); border-radius:12px; padding:15px 17px; box-shadow:0 10px 28px -20px rgba(0,0,0,.9); }
-.note-card .note-text{ white-space:pre-wrap; word-break:break-word; font-size:15px; line-height:1.75; color:#eaf2f8; }
+/* ---- notes (جولة النوتس — شكل مواد: تابات فوق + كروت ستيكي ملوّنة) ---- */
+.nt-tabs{ display:flex; gap:.5rem; padding:.85rem 1.15rem 0; flex-wrap:wrap; }
+.nt-tab{ display:inline-flex; align-items:center; gap:.45rem; padding:.55rem 1.05rem; border-radius:12px; font-weight:700; font-size:13.5px; border:1px solid rgba(120,180,230,.22); background:rgba(255,255,255,.05); color:#9fb6cb; cursor:pointer; transition:all .2s; }
+.nt-tab:hover{ border-color:rgba(120,180,230,.45); color:#dbeafe; }
+.nt-tab.on-content{ background:linear-gradient(90deg,#6366f1,#7c3aed); color:#fff; border-color:transparent; box-shadow:0 6px 18px -6px rgba(99,102,241,.55); }
+.nt-tab.on-notes{ background:linear-gradient(90deg,#f59e0b,#ea580c); color:#fff; border-color:transparent; box-shadow:0 6px 18px -6px rgba(245,158,11,.5); }
+.nt-hide{ display:none; }
+.nt-notes-wrap{ padding:18px; }
+.nt-grid{ display:grid; grid-template-columns:1fr; gap:1rem; }
+@media(min-width:640px){ .nt-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(min-width:1024px){ .nt-grid{ grid-template-columns:repeat(3,1fr); } }
+.nt-card{ border-radius:16px; padding:16px; box-shadow:0 6px 16px -8px rgba(0,0,0,.6); }
+.nt-card .nt-text{ white-space:pre-wrap; word-break:break-word; font-size:14.5px; font-weight:600; line-height:1.8; margin:0 0 12px; }
+.nt-foot{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; }
+.nt-date{ font-size:12px; opacity:.7; }
+.nt-actions{ display:inline-flex; gap:.75rem; }
+.nt-act{ display:inline-flex; align-items:center; gap:.3rem; font-size:12px; font-weight:800; background:none; border:none; color:inherit; opacity:.75; cursor:pointer; padding:2px 0; }
+.nt-act:hover{ opacity:1; text-decoration:underline; }
+.nt-notes-admin{ display:flex; justify-content:flex-end; margin-bottom:12px; }
+.nt-empty{ text-align:center; padding:44px 18px; border:1.5px dashed rgba(120,180,230,.3); border-radius:16px; }
+.nt-empty-ic{ width:72px; height:72px; border-radius:999px; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; background:rgba(245,158,11,.12); color:#fbbf24; }
+.nt-empty-txt{ color:#7f9bb3; font-weight:600; margin:0; }
 .partition-card .cat-head{ padding:14px 15px; }
 .partition-card .pillbtn{ padding-inline:10px; }
 
@@ -213,3 +240,168 @@ body{
   .bp-footer-inner > .opacity-40 { display: none; }
   .bp-footer-inner .bp-signature { font-size: 1.08rem; white-space: nowrap; line-height: 1.2; }
 }
+
+/* ============================================================
+   🗂️ جولة السايد بار — دروّير الصفحات الجانبي
+   نفس سلوك موقع المواد بالظبط: زر عائم (FAB) + ستارة بتحجب
+   المحتوى (باكدروب) + لوح بيزلق من اليمين بـ translateX(100%)↔0.
+   كل الكلاسات .rail-*/.nt-* عندنا هنا، فمش محتاجين إعادة بناء
+   Tailwind خالص. الزر فوق الفوتر الثابت (z-60 > z-30).
+   ============================================================ */
+#rail-fab{
+  position:fixed; bottom:76px; right:20px; z-index:60;
+  width:48px; height:48px; border-radius:16px; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; color:#fff;
+  background:linear-gradient(135deg,#6366f1,#7c3aed);
+  box-shadow:0 10px 25px -8px rgba(99,102,241,.65);
+  transition:transform .18s ease, box-shadow .18s ease;
+}
+#rail-fab:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -8px rgba(99,102,241,.75); }
+#rail-fab:active{ transform:translateY(0) scale(.96); }
+#rail-fab svg{ width:22px; height:22px; }
+#rail-backdrop{
+  position:fixed; inset:0; z-index:59; background:rgba(0,0,0,.5);
+  opacity:0; pointer-events:none; transition:opacity .25s ease;
+}
+#rail-backdrop.show{ opacity:1; pointer-events:auto; }
+#rail{
+  position:fixed; top:0; bottom:0; right:0; z-index:60;
+  width:288px; max-width:85vw; display:flex; flex-direction:column;
+  background:#0d2137; border-left:1px solid rgba(120,180,230,.2);
+  transform:translateX(100%); transition:transform .3s ease;
+  padding:18px 14px; overflow-y:auto;
+  box-shadow:-18px 0 45px -22px rgba(0,0,0,.65);
+}
+#rail.open{ transform:translateX(0); }
+.rail-head{ display:flex; align-items:center; justify-content:space-between; margin:0 0 14px; padding:2px 4px 12px; border-bottom:1px solid rgba(120,180,230,.14); }
+.rail-head p{ font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--mut); margin:0; }
+.rail-head button{ width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.05); border:1px solid rgba(120,180,230,.18); color:#9fb6cb; cursor:pointer; transition:.15s; }
+.rail-head button:hover{ color:#fff; border-color:var(--brand); background:rgba(56,189,248,.12); }
+.rail-head button svg{ width:16px; height:16px; }
+#rail .tabs{ display:flex; flex-direction:column; gap:6px; overflow-x:visible; }
+#rail .tab{
+  width:100%; white-space:normal; text-align:start;
+  padding:12px 14px; border-radius:12px; border:1px solid rgba(120,180,230,.14);
+  background:rgba(255,255,255,.03); box-shadow:none; font-size:14px;
+}
+#rail .tab:hover{ color:#fff; background:rgba(56,189,248,.07); border-color:rgba(120,180,230,.3); }
+#rail .tab.active{
+  background:rgba(56,189,248,.12); border-color:rgba(56,189,248,.38);
+  box-shadow:inset -4px 0 0 var(--acc,#38bdf8);
+}
+#rail .tab-add{ border:1.5px dashed rgba(120,180,230,.3); }
+#rail .tab .tab-ctrl{ margin-inline-start:auto; }
+/* 📱 موبايل: الفوتر الثابت بيبقى عمود (3 أسطر) — نرفع الزر فوقه */
+@media (max-width:640px){ #rail-fab{ bottom:122px; } }
+
+/* ============================================================
+   🌗 جولة النايت مود — الوضع النهاري الفاتح
+   الافتراضي يفضل داكن (هوية الموقع). كل القواعد هنا متقيّدة
+   بـ html.light — يعني الداكن متمسّكش حرف واحد. بنغيّر متغيرات
+   الألوان + الأزرق الحبيبي بتاع الهيدر/الفوتر (color-ink-900)
+   + أي لون مكتوب هاردكود في القوالب، ولأن الملف ده غير مُقسّم
+   لطبقات (un-layered) بيكسب تلقائيًا على vendor.css بتاع
+   Tailwind من غير !important.
+   ============================================================ */
+html.light{
+  --paper:#eef4f9;
+  --line:rgba(15,50,80,.09);
+  --line2:rgba(15,50,80,.045);
+  --txt:#12293f;
+  --mut:#4d6b84;
+  --color-ink-900:#ffffff; /* بيخلّي bg-ink-900/95 بتاع الهيدر والفوتر أبيض شفاف تلقائيًا */
+}
+html.light ::-webkit-scrollbar-track{ background:#dbe6ef; }
+html.light ::-webkit-scrollbar-thumb{ background:#b3c6d6; }
+html.light ::-webkit-scrollbar-thumb:hover{ background:#93aec2; }
+html.light .compass{ opacity:.07; }
+
+/* نصوص القوالب اللي كانت مضبوطة على الداكن */
+html.light .text-white{ color:#12293f; }
+html.light .text-\[\#e8f1f8\]{ color:#173d5c; }
+html.light .text-\[\#9fb6cb\]{ color:#4d6b84; }
+html.light .text-\[\#7f9bb3\]{ color:#55748d; }
+html.light .text-\[\#cfe3f3\]{ color:#33526b; }
+/* لمسة قِراءة: درجات أغمق شوية لألوان البراند على الأبيض */
+html.light .text-sky-400{ color:#0284c7; }
+html.light .hover\:text-sky-400:hover{ color:#0284c7; }
+html.light .text-rose-400{ color:#e11d48; }
+html.light .hover\:text-rose-300:hover{ color:#e11d48; }
+
+/* خلفيات وحدود المركّبات (rgba هاردكود في القوالب) */
+html.light .bg-\[rgba\(255\,255\,255\,\.03\)\]{ background-color:rgba(15,50,80,.04); }
+html.light .bg-\[rgba\(255\,255\,255\,\.04\)\]{ background-color:rgba(15,50,80,.05); }
+html.light .bg-\[rgba\(255\,255\,255\,\.06\)\]{ background-color:rgba(15,50,80,.05); }
+html.light .bg-\[rgba\(255\,255\,255\,\.08\)\]{ background-color:rgba(15,50,80,.07); }
+html.light .bg-\[rgba\(0\,0\,0\,\.15\)\]{ background-color:rgba(15,50,80,.04); }
+html.light .bg-\[rgba\(0\,0\,0\,\.25\)\]{ background-color:rgba(15,50,80,.07); }
+html.light .border-\[rgba\(120\,180\,230\,\.1\)\]{ border-color:rgba(15,50,80,.09); }
+html.light .border-\[rgba\(120\,180\,230\,\.12\)\]{ border-color:rgba(15,50,80,.11); }
+html.light .border-\[rgba\(120\,180\,230\,\.16\)\]{ border-color:rgba(15,50,80,.13); }
+html.light .border-\[rgba\(120\,180\,230\,\.18\)\]{ border-color:rgba(15,50,80,.15); }
+html.light .border-\[rgba\(120\,180\,230\,\.2\)\]{ border-color:rgba(15,50,80,.16); }
+html.light .border-\[rgba\(120\,180\,230\,\.22\)\]{ border-color:rgba(15,50,80,.18); }
+html.light .border-\[rgba\(120\,180\,230\,\.3\)\]{ border-color:rgba(15,50,80,.24); }
+html.light .divide-\[rgba\(120\,180\,230\,\.06\)\]>:not(:last-child){ border-color:rgba(15,50,80,.08); }
+
+/* الشيتات والكروت الكبيرة */
+html.light .sheet, html.light .cat-card{
+  background:linear-gradient(180deg,#ffffff,#f4f8fc);
+  border-color:rgba(15,50,80,.14);
+  box-shadow:0 20px 50px -30px rgba(15,50,80,.35);
+}
+html.light .partition-card:hover, html.light .cat-card:hover{ box-shadow:0 25px 55px -30px rgba(15,50,80,.4); }
+html.light .partition-cover{ background:#e6eef5; border-bottom-color:rgba(15,50,80,.1); }
+html.light .partition-cover::after{ background:linear-gradient(90deg, rgba(238,244,249,.55), transparent 70%), linear-gradient(0deg, #f4f8fc 5%, transparent 60%); }
+html.light .cat-card-body{ border-top-color:rgba(15,50,80,.08); background:rgba(15,50,80,.04); }
+html.light .cat-card-head:hover, html.light .cat-head:hover{ background:rgba(56,189,248,.07); }
+html.light .row:hover{ background:rgba(56,189,248,.06); }
+html.light .chk{ border-color:#a8bfd2; }
+html.light .ring{ background:conic-gradient(var(--acc,#38bdf8) calc(var(--p)*1%), rgba(15,50,80,.12) 0); }
+html.light .ring > span{ background:#ffffff; color:#173d5c; }
+html.light .stamp{ background:rgba(56,189,248,.08); }
+html.light .colorchip.sel{ border-color:#0e2f47; }
+html.light .upl{ border-color:rgba(15,50,80,.3); }
+html.light .upl:hover{ background:rgba(56,189,248,.06); }
+
+/* الأزرار الصغيرة */
+html.light .icobtn{ border-color:rgba(15,50,80,.16); background:rgba(15,50,80,.03); color:#4d6b84; }
+html.light .icobtn:hover{ color:#0e2f47; border-color:var(--brand); background:rgba(56,189,248,.12); }
+html.light .icobtn.del:hover{ border-color:#fb7185; background:rgba(244,63,94,.1); color:#be123c; }
+html.light .move{ background:rgba(15,50,80,.04); border-color:rgba(15,50,80,.14); color:#4d6b84; }
+html.light .move:hover:not(:disabled){ color:#0e2f47; background:rgba(56,189,248,.12); }
+html.light .pill-ghost{ border-color:rgba(15,50,80,.22); color:#33526b; background:rgba(255,255,255,.6); }
+html.light .pill-ghost:hover{ border-color:var(--brand); color:#0e2f47; background:rgba(56,189,248,.1); }
+
+/* حقول المودال + صفحة الدخول (الأدمن) */
+html.light .mback{ background:rgba(30,55,80,.45); }
+html.light .field label{ color:#4d6b84; }
+html.light .field input, html.light .field select, html.light .field textarea{ background:#ffffff; border-color:rgba(15,50,80,.18); color:#12293f; }
+html.light .login-cardx{ background:#ffffff; border-color:rgba(15,50,80,.14); box-shadow:0 25px 70px rgba(15,50,80,.22); }
+html.light .login-field{ border-color:rgba(15,50,80,.18); background:rgba(15,50,80,.03); }
+html.light .login-field input{ color:#12293f; }
+html.light .login-field input::placeholder{ color:#8aa3b8; }
+html.light .mini-toast{ background:#ffffff; color:#12293f; border-color:rgba(15,50,80,.18); box-shadow:0 10px 30px rgba(15,50,80,.2); }
+html.light .mini-toast.err{ border-color:rgba(244,63,94,.5); color:#be123c; }
+
+/* تابات الملاحظات والحالة الفارغة */
+html.light .nt-tab{ border-color:rgba(15,50,80,.16); background:rgba(15,50,80,.04); color:#4d6b84; }
+html.light .nt-tab:hover{ border-color:rgba(15,50,80,.32); color:#0e2f47; }
+html.light .nt-empty{ border-color:rgba(15,50,80,.26); }
+html.light .nt-empty-txt{ color:#55748d; }
+html.light .nt-empty-ic{ background:rgba(245,158,11,.14); color:#d97706; }
+html.light .nt-card{ box-shadow:0 6px 16px -8px rgba(15,50,80,.25); }
+
+/* الدروّير نفسه في الوضع الفاتح */
+html.light #rail{ background:#ffffff; border-left-color:rgba(15,50,80,.12); box-shadow:-18px 0 45px -22px rgba(15,50,80,.3); }
+html.light .rail-head{ border-bottom-color:rgba(15,50,80,.1); }
+html.light .rail-head button{ background:rgba(15,50,80,.04); border-color:rgba(15,50,80,.14); color:#4d6b84; }
+html.light .rail-head button:hover{ color:#12293f; background:rgba(56,189,248,.12); }
+html.light #rail .tab{ background:rgba(15,50,80,.03); border-color:rgba(15,50,80,.12); color:#4d6b84; }
+html.light #rail .tab:hover{ color:#12293f; background:rgba(56,189,248,.08); border-color:rgba(56,189,248,.3); }
+html.light #rail .tab.active{ color:#0e2f47; background:rgba(56,189,248,.14); border-color:rgba(56,189,248,.4); }
+html.light #rail .tab-add{ border-color:rgba(15,50,80,.3); color:#55748d; }
+html.light #rail .tab-add:hover{ color:#0e2f47; border-color:var(--brand); background:rgba(56,189,248,.08); }
+html.light .tab-ctrl button{ color:#4d6b84; background:rgba(15,50,80,.05); border-color:rgba(15,50,80,.14); }
+html.light .tab-ctrl button:hover{ color:#0e2f47; background:rgba(56,189,248,.15); }
+html.light .tab-ctrl button.del:hover{ background:rgba(244,63,94,.12); border-color:#fb7185; color:#be123c; }

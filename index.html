@@ -3,21 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>/* 🌗 نايت مود — بوت قبل الرسم: الافتراضي داكن زي ما هو، «light» بتتخزن في er_theme */
+try{var __erT=localStorage.getItem('er_theme');if(__erT==='light'){var __r=document.documentElement;__r.classList.remove('dark');__r.classList.add('light');}}catch(e){}</script>
 <meta name="description" content="خارطة طريق أقسام الهندسة">
 <title>Engineering Roadmap</title>
 <link rel="icon" href="favicon.png">
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/lucide@0.485.0/dist/umd/lucide.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  darkMode:'class',
-  theme:{ extend:{
-    fontFamily:{ sans:['Cairo','sans-serif'], mono:['IBM Plex Mono','monospace'] },
-    colors:{ ink:{ 950:'#06131f', 900:'#0a1a2c', 800:'#0d2137', 700:'#12293f', 600:'#1b3650' } }
-  }}
-}
-</script>
+<!-- ⚡ Tailwind مبني مسبقًا (vendor.css ثابت — من غير مترجم جوه المتصفح) -->
+<link rel="stylesheet" href="css/vendor.css" />
 <link rel="stylesheet" href="css/style.css">
 
 <body class="min-h-screen font-sans overflow-x-hidden relative">
@@ -40,11 +34,12 @@ tailwind.config = {
       </div>
 
       <!-- tabs -->
-      <nav id="tabs" class="tabs flex items-end gap-1.5 overflow-x-auto flex-1 self-stretch pt-2 px-1" style="scrollbar-width:thin"></nav>
+      <div class="flex-1"></div>
 
       <!-- controls -->
       <div class="flex items-center gap-2 shrink-0">
-        <button onclick="exportMyProgress()" title="حمّل ملف تقدمك في قسم الاتصالات والحاسبات (لموقع StudyHub)" class="pillbtn pill-primary !py-2">
+        <button id="theme-toggle" onclick="toggleTheme()" title="الوضع الليلي / النهاري" class="pillbtn pill-ghost py-2! px-2.5!"><i data-lucide="sun" class="w-4 h-4"></i></button>
+        <button onclick="exportMyProgress()" title="حمّل ملف تقدمك في قسم الاتصالات والحاسبات (لموقع StudyHub)" class="pillbtn pill-primary py-2!">
           <i data-lucide="cloud-download" class="w-4 h-4"></i><span class="hidden sm:inline">ملف تقدمي</span>
         </button>
       </div>
@@ -52,6 +47,17 @@ tailwind.config = {
   </div>
   <div class="ruler"></div>
 </header>
+
+<!-- ============ دروّير الصفحات (جولة السايد بار — سلوك مواد بالظبط: FAB + باكدروب + انزلاق) ============ -->
+<button type="button" id="rail-fab" aria-label="قائمة الصفحات" onclick="toggleRailDrawer()"><i data-lucide="menu"></i></button>
+<div id="rail-backdrop" onclick="closeRailDrawer()"></div>
+<aside id="rail" aria-label="شريط الصفحات">
+  <div class="rail-head">
+    <p>Sections · الأقسام</p>
+    <button type="button" aria-label="إغلاق القائمة" onclick="closeRailDrawer()"><i data-lucide="x"></i></button>
+  </div>
+  <nav id="tabs" class="tabs"></nav>
+</aside>
 
 <main class="relative z-10 max-w-[1400px] mx-auto px-3 sm:px-5 pt-[112px] pb-28">
   <!-- HOME / OVERVIEW -->
@@ -104,5 +110,5 @@ tailwind.config = {
 
 <script src="js/viewer.js"></script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f"}' crossorigin="anonymous"></script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a2a72814f8584b31',t:'MTc4NjYxODIwMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
