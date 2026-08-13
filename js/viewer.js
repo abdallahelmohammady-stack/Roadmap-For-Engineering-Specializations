@@ -454,7 +454,7 @@ function renderTabs(){
   const t=$('tabs'); t.innerHTML='';
   // home tab
   t.insertAdjacentHTML('beforeend',
-    `<button class="tab ${current==='home'?'active':''}" style="--acc:#38bdf8" onclick="go('home')"><i data-lucide="layout-grid" class="ic"></i> الرئيسية</button>`);
+    `<div class="tab ${current==='home'?'active':''}" role="button" tabindex="0" style="--acc:#38bdf8" onclick="go('home')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('home');}"><i data-lucide="layout-grid" class="ic"></i> الرئيسية</div>`);
   depts.forEach((d,i)=>{
     const st=stats(d);
     const active = current===d.id;
@@ -468,12 +468,12 @@ function renderTabs(){
       </span>`;
     }
     t.insertAdjacentHTML('beforeend',
-      `<button class="tab ${active?'active':''}" style="--acc:${acc(d.color)}" onclick="go('${d.id}')">
+      `<div class="tab ${active?'active':''}" role="button" tabindex="0" style="--acc:${acc(d.color)}" onclick="go('${d.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('${d.id}');}">
         <i data-lucide="${d.icon}" class="ic"></i>
-        <span>${esc(d.title)}</span>
-        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[rgba(255,255,255,.08)] text-[#9fb6cb]">${st.t}</span>
+        <span class="tab-title">${esc(d.title)}</span>
+        <span class="tab-count">${st.t}</span>
         ${ctrl}
-      </button>`);
+      </div>`);
   });
   if(isAdmin){
     t.insertAdjacentHTML('beforeend',

@@ -245,7 +245,7 @@ body{
    🗂️ جولة السايد بار — دروّير الصفحات الجانبي
    نفس سلوك موقع المواد بالظبط: زر عائم (FAB) + ستارة بتحجب
    المحتوى (باكدروب) + لوح بيزلق من اليمين بـ translateX(100%)↔0.
-   كل الكلاسات .rail-*/.nt-* عندنا هنا، فمش محتاجين إعادة بناء
+   كل الكلاسات rail و nt عندنا هنا، فمش محتاجين إعادة بناء
    Tailwind خالص. الزر فوق الفوتر الثابت (z-60 > z-30).
    ============================================================ */
 #rail-fab{
@@ -290,7 +290,29 @@ body{
   box-shadow:inset -4px 0 0 var(--acc,#38bdf8);
 }
 #rail .tab-add{ border:1.5px dashed rgba(120,180,230,.3); }
-#rail .tab .tab-ctrl{ margin-inline-start:auto; }
+/* ➕ رصّ أزرار الأدمن: العنوان في صف، والأزرار في صف مستقل تحته
+   بفاصل خفيف — بدل ما تتزاحم مع عنوان طويل في 288px */
+#rail .tab{ flex-wrap:wrap; row-gap:0; user-select:none; }
+#rail .tab .tab-title{ flex:1 1 auto; min-width:0; }
+#rail .tab .tab-ctrl{
+  flex:1 0 100%; margin-inline-start:0; margin-top:10px;
+  padding-top:9px; border-top:1px solid rgba(120,180,230,.12);
+  justify-content:flex-end; gap:6px;
+}
+#rail .tab .tab-ctrl button{ width:30px; height:30px; border-radius:9px; }
+#rail .tab .tab-ctrl button svg{ width:14px; height:14px; }
+#rail .tab .tab-ctrl button[disabled]{ cursor:not-allowed; }
+
+/* ➕ شريط «قسم جديد» تحت الهيدر — بيبدأ من جهة البداية (يمين في RTL)
+   justify-content مش justify-end عشان يتقلب صح مع الاتجاه */
+#add-dept-bar{ justify-content:flex-start; }
+
+/* شارة عدد الكورسات — كانت كلاسات Tailwind سطرية، بقت كلاس واحد هنا */
+.tab-count{
+  flex:none; font-family:'IBM Plex Mono',monospace; font-size:9.5px; font-weight:700;
+  padding:2px 6px; border-radius:6px; line-height:1.5;
+  background:rgba(255,255,255,.08); color:#9fb6cb;
+}
 /* 📱 موبايل: الفوتر الثابت بيبقى عمود (3 أسطر) — نرفع الزر فوقه */
 @media (max-width:640px){ #rail-fab{ bottom:122px; } }
 
@@ -400,6 +422,8 @@ html.light .rail-head button:hover{ color:#12293f; background:rgba(56,189,248,.1
 html.light #rail .tab{ background:rgba(15,50,80,.03); border-color:rgba(15,50,80,.12); color:#4d6b84; }
 html.light #rail .tab:hover{ color:#12293f; background:rgba(56,189,248,.08); border-color:rgba(56,189,248,.3); }
 html.light #rail .tab.active{ color:#0e2f47; background:rgba(56,189,248,.14); border-color:rgba(56,189,248,.4); }
+html.light #rail .tab .tab-ctrl{ border-top-color:rgba(15,50,80,.1); }
+html.light .tab-count{ background:rgba(15,50,80,.07); color:#4d6b84; }
 html.light #rail .tab-add{ border-color:rgba(15,50,80,.3); color:#55748d; }
 html.light #rail .tab-add:hover{ color:#0e2f47; border-color:var(--brand); background:rgba(56,189,248,.08); }
 html.light .tab-ctrl button{ color:#4d6b84; background:rgba(15,50,80,.05); border-color:rgba(15,50,80,.14); }
