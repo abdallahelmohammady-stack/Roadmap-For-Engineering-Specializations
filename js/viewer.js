@@ -497,6 +497,7 @@ function renderHome(){
           <h3 class="text-xl font-black text-white mb-1">${esc(d.title)}</h3>
           <p class="text-[11px] font-mono uppercase tracking-widest mb-3" style="color:${c}">${esc(d.subtitle)}</p>
           <p class="text-sm text-[#9fb6cb] line-clamp-2 mb-4">${esc(d.description)}</p>
+          <div class="er-mini-route" aria-hidden="true"><span class="done"></span><span class="done"></span><span></span><span></span></div>
           <div class="flex items-center justify-between text-[11px] font-mono text-[#7f9bb3]">
             <span>${(d.partitions||[]).length} بارتيشن · ${st.d}/${st.t} مكتمل</span>
             <span class="flex items-center gap-1" style="color:${c}">دخول <i data-lucide="arrow-left" class="w-4 h-4"></i></span>
