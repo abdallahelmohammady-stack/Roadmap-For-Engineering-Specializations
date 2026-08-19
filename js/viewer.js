@@ -748,7 +748,7 @@ function renderCourse(co, parentId, i, total, pc){
       <span class="text-[14.5px] truncate ${co.completed?'text-[#7f9bb3] line-through':'text-[#e8f1f8]'}">${esc(co.title)}</span>
     </div>
     <div class="flex items-center gap-3 justify-end">
-      <a href="${esc(co.link)}" target="_blank" class="pillbtn pill-ghost py-1.5! text-[12px]!" style="color:${pc};border-color:${pc}55">فتح المصدر <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>
+      ${co.link?`<a href="${esc(co.link)}" target="_blank" rel="noopener" class="pillbtn pill-ghost py-1.5! text-[12px]!" style="color:${pc};border-color:${pc}55">فتح المصدر <i data-lucide="external-link" class="w-3.5 h-3.5"></i></a>`:`<span class="pillbtn pill-ghost py-1.5! text-[12px]! opacity-70" style="color:${pc};border-color:${pc}55"><i data-lucide="clock" class="w-3.5 h-3.5"></i> سيُضاف المصدر قريبًا</span>`}
       ${adm}
     </div>`;
   return row;
